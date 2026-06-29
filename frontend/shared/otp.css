@@ -1,0 +1,146 @@
+/* ═══════════════════════════════════════════════════
+   ZITLAS — Shared OTP Component
+   shared/otp.css  ·  loaded after each form's CSS
+═══════════════════════════════════════════════════ */
+
+/* ── OTP Card ──────────────────────────────────────── */
+.otp-card {
+  background: #0b1220;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 20px 16px 18px;
+  margin-top: 12px;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 138, 0, 0.06);
+}
+
+.otp-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 4px;
+  letter-spacing: 0.01em;
+}
+
+.otp-card-sub {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0 0 18px;
+}
+
+/* ── OTP Boxes Row ────────────────────────────────── */
+.otp-boxes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: clamp(6px, 2vw, 10px);
+  overflow: hidden;    /* never spill past card edge */
+  margin-bottom: 16px;
+}
+
+/* ── Individual Box ───────────────────────────────── */
+.otp-box {
+  flex: 1;
+  min-width: 0;        /* KEY FIX: allows box to shrink below intrinsic input size */
+  max-width: 52px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  caret-color: #ff8a00;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.otp-box:focus {
+  border-color: #ff8a00;
+  box-shadow: 0 0 0 3px rgba(255, 138, 0, 0.15);
+}
+
+/* Tighten up on very narrow screens */
+@media (max-width: 400px) {
+  .otp-box {
+    height: clamp(44px, 13vw, 52px);
+    font-size: 18px;
+    border-radius: 12px;
+  }
+  .otp-boxes {
+    gap: 6px;
+  }
+}
+
+/* ── Verify Button ────────────────────────────────── */
+.verify-otp-btn {
+  width: 100%;
+  height: 48px;
+  background: #ff8a00;
+  border: none;
+  border-radius: 14px;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  font-family: inherit;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.verify-otp-btn:active { opacity: 0.85; transform: scale(0.99); }
+.verify-otp-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+/* ── Verified Badge ───────────────────────────────── */
+.otp-verified {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #ff8a00;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(255, 138, 0, 0.08);
+  border: 1px solid rgba(255, 138, 0, 0.2);
+  border-radius: 10px;
+}
+
+/* Light theme keeps card dark (it's always dark by design) */
+[data-theme="light"] .otp-card {
+  background: #0b1220;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ═══════════════════════════════════════════════════
+   DOB — Three-Dropdown Date of Birth
+═══════════════════════════════════════════════════ */
+
+.dob-row {
+  display: flex;
+  gap: 8px;
+}
+
+.dob-select {
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  /* Chevron arrow via inline SVG */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%2394a3b8' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 30px !important;
+}
+
+.dob-select option {
+  background: var(--surface);
+  color: var(--text-1);
+}

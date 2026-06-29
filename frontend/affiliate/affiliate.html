@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Affiliate Program — ZITLAS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="affiliate.css" />
+</head>
+<body>
+<div class="app">
+
+  <!-- ── Top Bar ───────────────────────────────────────── -->
+  <header class="top-bar">
+    <div class="top-bar-inner">
+      <div class="brand">
+        <div class="brand-mark">Z</div>
+        <div class="brand-text">
+          <span class="brand-main">ZITLAS</span>
+          <span class="brand-sub">Partner Network</span>
+        </div>
+      </div>
+      <div class="top-right">
+        <div class="live-badge">
+          <span class="live-dot"></span>
+          Live
+        </div>
+        <button class="icon-btn notif-btn" aria-label="Notifications">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-dot"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Main ──────────────────────────────────────────── -->
+  <main class="main">
+
+    <!-- Page Hero -->
+    <div class="page-hero">
+      <div class="hero-glow"></div>
+      <div class="hero-inner">
+        <div class="hero-pill">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Affiliate Program
+        </div>
+        <h1 class="hero-title">Refer &amp; Earn</h1>
+        <p class="hero-sub">Refer Nutritionists &amp; Fitness Coaches.<br>Earn commission when they start consulting.</p>
+      </div>
+    </div>
+
+    <!-- ── 1. Affiliate Status Card ─────────────────────── -->
+    <div class="status-card">
+      <div class="sc-top">
+        <div class="sc-left">
+          <p class="sc-id-label">Affiliate ID</p>
+          <p class="sc-id" id="affId">—</p>
+          <p class="sc-since" id="affSince"></p>
+        </div>
+        <div class="sc-right">
+          <div class="badge badge--pending">
+            <span class="badge-dot"></span>
+            Pending
+          </div>
+        </div>
+      </div>
+      <div class="sc-divider"></div>
+      <div class="sc-bottom">
+        <div class="sc-stat">
+          <span class="sc-stat-num">0</span>
+          <span class="sc-stat-lbl">Approved</span>
+        </div>
+        <div class="sc-stat-sep"></div>
+        <div class="sc-stat">
+          <span class="sc-stat-num">₹0</span>
+          <span class="sc-stat-lbl">Total Earned</span>
+        </div>
+        <div class="sc-stat-sep"></div>
+        <div class="sc-stat">
+          <span class="sc-stat-num">0%</span>
+          <span class="sc-stat-lbl">Conversion</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 2. Referral Link ──────────────────────────────── -->
+    <div class="sec-card">
+      <div class="sec-head">
+        <div class="sec-head-left">
+          <div class="sec-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          </div>
+          <span class="sec-title">Your Referral Link</span>
+        </div>
+      </div>
+      <div class="ref-link-row">
+        <input type="text" readonly id="refLinkInput" class="ref-link-input" value="" placeholder="Loading your referral link…" />
+        <button class="copy-btn" id="copyLinkBtn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+      <div class="ref-action-btns">
+        <button class="ref-action-btn ref-action-btn--wa" id="waShareBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+          Share on WhatsApp
+        </button>
+        <button class="ref-action-btn ref-action-btn--qr" id="qrBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="5" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="16" width="3" height="3" fill="currentColor" stroke="none"/><rect x="5" y="16" width="3" height="3" fill="currentColor" stroke="none"/></svg>
+          Generate QR Code
+        </button>
+      </div>
+      <div class="ref-code-row">
+        <span class="ref-code-label">Referral Code</span>
+        <span class="ref-code-val" id="refCode">—</span>
+      </div>
+    </div>
+
+    <!-- ── 3. Earnings Overview ──────────────────────────── -->
+    <p class="sec-label">Earnings Overview</p>
+    <div class="earnings-grid">
+      <div class="earn-card earn-card--brand">
+        <div class="earn-top">
+          <div class="earn-ico">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+        </div>
+        <div class="earn-num">₹0</div>
+        <div class="earn-lbl">Total Earnings</div>
+      </div>
+      <div class="earn-card earn-card--amber">
+        <div class="earn-top">
+          <div class="earn-ico earn-ico--amber">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+        </div>
+        <div class="earn-num">₹0</div>
+        <div class="earn-lbl">Pending Payout</div>
+      </div>
+      <div class="earn-card earn-card--green">
+        <div class="earn-top">
+          <div class="earn-ico earn-ico--green">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+        </div>
+        <div class="earn-num">₹0</div>
+        <div class="earn-lbl">This Month</div>
+      </div>
+      <div class="earn-card earn-card--blue">
+        <div class="earn-top">
+          <div class="earn-ico earn-ico--blue">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          </div>
+        </div>
+        <div class="earn-num">₹0</div>
+        <div class="earn-lbl">Available Balance</div>
+      </div>
+    </div>
+
+    <!-- ── 4. Referral Stats ─────────────────────────────── -->
+    <p class="sec-label">Referral Statistics</p>
+    <div class="ref-stats-grid">
+      <div class="rs-card">
+        <div class="rs-num">0</div>
+        <div class="rs-lbl">Total Clicks</div>
+        <div class="rs-bar"><div class="rs-fill" style="width:0%"></div></div>
+      </div>
+      <div class="rs-card">
+        <div class="rs-num">0</div>
+        <div class="rs-lbl">Referred</div>
+        <div class="rs-bar"><div class="rs-fill" style="width:0%"></div></div>
+      </div>
+      <div class="rs-card">
+        <div class="rs-num">0</div>
+        <div class="rs-lbl">Approved</div>
+        <div class="rs-bar rs-bar--green"><div class="rs-fill rs-fill--green" style="width:0%"></div></div>
+      </div>
+      <div class="rs-card">
+        <div class="rs-num">0</div>
+        <div class="rs-lbl">Active</div>
+        <div class="rs-bar rs-bar--green"><div class="rs-fill rs-fill--green" style="width:0%"></div></div>
+      </div>
+      <div class="rs-card rs-card--wide">
+        <div class="rs-num rs-num--brand">0%</div>
+        <div class="rs-lbl">Conversion Rate</div>
+        <div class="rs-bar"><div class="rs-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- ── 5. Referred Experts ───────────────────────────── -->
+    <div class="sec-head-row">
+      <p class="sec-label sec-label--inline">Referred Experts</p>
+      <button class="see-all-btn">See All</button>
+    </div>
+    <div class="experts-list"></div>
+
+    <!-- Empty state (shown until experts load from API) -->
+    <div class="empty-state" id="emptyExperts">
+      <div class="empty-icon">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <p class="empty-title">No referrals yet</p>
+      <p class="empty-sub">Share your link and start earning when experts join through you.</p>
+    </div>
+
+    <!-- ── 6. Recent Commissions ─────────────────────────── -->
+    <p class="sec-label">Recent Commissions</p>
+    <div class="timeline-card">
+      <p style="text-align:center;color:var(--text-3);font-size:13px;padding:20px 0;">No earnings yet</p>
+    </div>
+
+    <!-- ── 7. Payout Section ─────────────────────────────── -->
+    <p class="sec-label">Payout</p>
+    <div class="sec-card payout-card">
+      <div class="payout-balance-row">
+        <div class="payout-balance-left">
+          <p class="pb-label">Available for Withdrawal</p>
+          <p class="pb-amount">₹0</p>
+        </div>
+      </div>
+
+      <div class="payout-bank-row">
+        <div class="payout-bank-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>
+        </div>
+        <div class="payout-bank-info">
+          <div class="payout-bank-name">Bank Account</div>
+          <div class="payout-bank-num">Not linked</div>
+        </div>
+        <button class="payout-change-btn" id="updateBankBtn">Add</button>
+      </div>
+
+      <div class="payout-upi-row">
+        <div class="payout-bank-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        </div>
+        <div class="payout-bank-info">
+          <div class="payout-bank-name">UPI</div>
+          <div class="payout-bank-num" id="upiId">—</div>
+        </div>
+        <button class="payout-change-btn" id="updateUpiBtn">Add</button>
+      </div>
+
+      <button class="withdraw-btn" id="withdrawBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Request Withdrawal
+      </button>
+    </div>
+
+    <!-- ── 8. How It Works ───────────────────────────────── -->
+    <p class="sec-label">How It Works</p>
+    <div class="how-card">
+
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-line"></div>
+        <div class="step-content">
+          <div class="step-title">Generate Your Referral Link</div>
+          <div class="step-sub">Copy your unique link from this page.</div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-line"></div>
+        <div class="step-content">
+          <div class="step-title">Expert Registers via Your Link</div>
+          <div class="step-sub">Share on WhatsApp, social media, or directly.</div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-line"></div>
+        <div class="step-content">
+          <div class="step-title">Expert Gets Approved</div>
+          <div class="step-sub">ZITLAS reviews and verifies the expert profile.</div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-line"></div>
+        <div class="step-content">
+          <div class="step-title">Expert Starts Consulting</div>
+          <div class="step-sub">They go live on the platform and start sessions.</div>
+        </div>
+      </div>
+
+      <div class="step-item step-item--last">
+        <div class="step-num step-num--brand">5</div>
+        <div class="step-content">
+          <div class="step-title step-title--brand">You Earn Commission</div>
+          <div class="step-sub">₹15 per consultation — automatically credited.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Commission Rules ──────────────────────────────── -->
+    <p class="sec-label">Commission Structure</p>
+    <div class="commission-card">
+      <div class="comm-header">
+        <span class="comm-label">Per Consultation Breakdown</span>
+        <span class="comm-badge">₹500 Session</span>
+      </div>
+      <div class="comm-rows">
+        <div class="comm-row">
+          <div class="comm-left">
+            <div class="comm-dot comm-dot--gray"></div>
+            <span>Consultation Fee</span>
+          </div>
+          <span class="comm-val">₹500</span>
+        </div>
+        <div class="comm-row">
+          <div class="comm-left">
+            <div class="comm-dot comm-dot--green"></div>
+            <span>Expert Receives</span>
+          </div>
+          <span class="comm-val comm-val--green">₹400 <span class="comm-pct">80%</span></span>
+        </div>
+        <div class="comm-row">
+          <div class="comm-left">
+            <div class="comm-dot comm-dot--gray"></div>
+            <span>Platform Fee</span>
+          </div>
+          <span class="comm-val">₹100 <span class="comm-pct">20%</span></span>
+        </div>
+        <div class="comm-row comm-row--highlight">
+          <div class="comm-left">
+            <div class="comm-dot comm-dot--brand"></div>
+            <span class="comm-you">Your Share</span>
+          </div>
+          <span class="comm-val comm-val--brand">₹15 <span class="comm-pct">3%</span></span>
+        </div>
+        <div class="comm-row comm-row--last">
+          <div class="comm-left">
+            <div class="comm-dot comm-dot--gray"></div>
+            <span>ZITLAS Revenue</span>
+          </div>
+          <span class="comm-val">₹85 <span class="comm-pct">17%</span></span>
+        </div>
+      </div>
+      <div class="comm-note">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Commission is credited automatically after each completed session.
+      </div>
+    </div>
+
+    <div class="bottom-spacer"></div>
+  </main>
+
+  <!-- ── Bottom Nav ────────────────────────────────────── -->
+  <nav class="bottom-nav">
+    <a href="../apply/nutritionist/nutritionist-apply.html" class="nav-item" id="applyNavItem">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+      <span>Apply</span>
+    </a>
+    <a href="#" class="nav-item nav-item--active">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      <span>Affiliate</span>
+    </a>
+    <a href="../profile/account/account-profile.html" class="nav-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <!-- ── QR Modal ──────────────────────────────────────── -->
+  <div class="modal-overlay" id="qrModal">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <h3 class="modal-title">Your QR Code</h3>
+      <p class="modal-sub">Let experts scan this to register through your referral</p>
+      <div class="qr-wrap">
+        <img id="qrImg" src="" alt="Referral QR Code" />
+      </div>
+      <div class="qr-code-label" id="qrCodeLabel">—</div>
+      <div class="modal-btns">
+        <button class="modal-btn modal-btn--outline" id="closeQrBtn">Close</button>
+        <button class="modal-btn modal-btn--brand" id="downloadQrBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Withdraw Modal ────────────────────────────────── -->
+  <div class="modal-overlay" id="withdrawModal">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <h3 class="modal-title">Request Withdrawal</h3>
+      <p class="modal-sub">Transfer your available balance to your bank account</p>
+      <div class="withdraw-balance">
+        <span class="wb-label">Available Balance</span>
+        <span class="wb-amount">₹0</span>
+      </div>
+      <div class="withdraw-info">
+        <div class="wi-row">
+          <span class="wi-key">Bank</span>
+          <span class="wi-val">Not linked</span>
+        </div>
+        <div class="wi-row">
+          <span class="wi-key">UPI</span>
+          <span class="wi-val" id="modalUpiId">—</span>
+        </div>
+        <div class="wi-row">
+          <span class="wi-key">Processing Time</span>
+          <span class="wi-val">2–3 Business Days</span>
+        </div>
+      </div>
+      <div class="modal-btns">
+        <button class="modal-btn modal-btn--outline" id="closeWithdrawBtn">Cancel</button>
+        <button class="modal-btn modal-btn--brand" id="confirmWithdrawBtn">
+          Confirm Withdrawal
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-toast" id="appToast"></div>
+</div>
+<script src="affiliate.js"></script>
+</body>
+</html>

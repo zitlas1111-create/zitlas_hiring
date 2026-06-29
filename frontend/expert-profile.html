@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Expert Profile — ZITLAS Experts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      var t = localStorage.getItem('zitlas_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f5f5f7;
+      --surface:  #ffffff;
+      --border:   rgba(0,0,0,0.08);
+      --text:     #111827;
+      --muted:    #6b7280;
+      --accent:   #FF7A00;
+      --accent-l: rgba(255,122,0,0.10);
+      --nav-h:    72px;
+    }
+    [data-theme="dark"] {
+      --bg:      #080910;
+      --surface: #0f1117;
+      --border:  rgba(255,255,255,0.08);
+      --text:    #f0f4f0;
+      --muted:   #6b7280;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      padding-bottom: calc(var(--nav-h) + 16px);
+    }
+
+    /* ── Top bar ── */
+    .top-bar {
+      position: sticky; top: 0; z-index: 40;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .back-btn {
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--border);
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--text);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0;
+      transition: border-color 0.15s;
+    }
+    .back-btn:hover { border-color: var(--accent); }
+    .top-bar-title { font-size: 15px; font-weight: 700; }
+
+    /* ── Hero ── */
+    .hero-bg {
+      height: 110px;
+      background: linear-gradient(135deg, var(--accent) 0%, #ff5500 100%);
+    }
+    .hero-card {
+      margin: -40px 16px 0;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 16px 16px;
+    }
+    .hero-top {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      border: 3px solid var(--surface);
+      object-fit: cover;
+      background: var(--accent-l);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 34px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+    .hero-info { flex: 1; }
+    .hero-name-row {
+      display: flex; align-items: center; gap: 7px;
+      margin-bottom: 3px;
+    }
+    .hero-name { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
+    .verified-badge {
+      display: flex; align-items: center; gap: 3px;
+      background: rgba(16,185,129,0.12);
+      color: #059669;
+      font-size: 10px; font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    .expert-type-pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 7px;
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+    .pill--nutri   { background: rgba(16,185,129,0.12); color: #059669; }
+    .pill--trainer { background: var(--accent-l); color: var(--accent); }
+
+    .hero-meta {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: var(--muted);
+      flex-wrap: wrap;
+    }
+    .hero-meta .dot { opacity: 0.4; }
+
+    /* ── Stats row ── */
+    .stats-row {
+      display: flex;
+      border-top: 1px solid var(--border);
+      margin-top: 14px;
+      padding-top: 14px;
+      gap: 0;
+    }
+    .stat-item {
+      flex: 1;
+      text-align: center;
+    }
+    .stat-item + .stat-item {
+      border-left: 1px solid var(--border);
+    }
+    .stat-val  { font-size: 18px; font-weight: 800; display: block; }
+    .stat-label { font-size: 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+
+    /* ── Section card ── */
+    .card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      margin: 12px 16px 0;
+    }
+    .card-title {
+      font-size: 14px; font-weight: 700;
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .card-title-icon { font-size: 16px; }
+
+    /* ── Spec tags ── */
+    .spec-grid {
+      display: flex; flex-wrap: wrap; gap: 7px;
+    }
+    .spec-chip {
+      padding: 5px 12px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      font-size: 12px; font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── Languages ── */
+    .lang-list {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .lang-tag {
+      padding: 4px 10px;
+      border-radius: 7px;
+      background: var(--bg);
+      font-size: 12px; font-weight: 600;
+      color: var(--muted);
+    }
+
+    /* ── Bio ── */
+    .bio-text {
+      font-size: 13.5px;
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    /* ── Reviews ── */
+    .review-card {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .review-card:last-child { border-bottom: none; }
+    .reviewer-row {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 6px;
+    }
+    .reviewer-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--accent-l);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .reviewer-name { font-size: 13px; font-weight: 700; }
+    .review-rating {
+      font-size: 11px; color: #f59e0b;
+      margin-left: auto;
+    }
+    .review-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+    /* ── Sticky Book Bar ── */
+    .book-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 50;
+    }
+    .book-price {
+      flex: 1;
+    }
+    .book-price-amount {
+      font-size: 20px; font-weight: 800;
+      color: var(--accent);
+      display: block;
+    }
+    .book-price-label {
+      font-size: 11px; color: var(--muted);
+    }
+    .book-btn {
+      flex: 2;
+      height: 50px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 15px; font-weight: 800;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+    }
+    .book-btn:active { opacity: 0.85; transform: scale(0.98); }
+
+    .share-btn {
+      width: 50px; height: 50px;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+      color: var(--muted);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .share-btn:hover { border-color: var(--accent); color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <!-- ── Top Bar ── -->
+  <header class="top-bar">
+    <button class="back-btn" onclick="history.back()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <span class="top-bar-title">Expert Profile</span>
+  </header>
+
+  <!-- ── Hero ── -->
+  <div class="hero-bg"></div>
+  <div class="hero-card">
+    <div class="hero-top">
+      <div class="avatar" id="expertAvatar">💪</div>
+      <div class="hero-info">
+        <div class="hero-name-row">
+          <h1 class="hero-name" id="expertName">Loading…</h1>
+          <span class="verified-badge" id="verifiedBadge">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            Verified
+          </span>
+        </div>
+        <span class="expert-type-pill pill--trainer" id="expertTypePill"></span>
+        <div class="hero-meta">
+          <span id="expertExp"></span>
+          <span class="dot" id="expDot">·</span>
+          <span id="expertCity"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-item">
+        <span class="stat-val" id="statRating">—</span>
+        <span class="stat-label">Rating</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-val" id="statReviews">—</span>
+        <span class="stat-label">Reviews</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-val" id="statClients">—</span>
+        <span class="stat-label">Clients</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Specializations ── -->
+  <div class="card">
+    <div class="card-title"><span class="card-title-icon">🎯</span> Specializations</div>
+    <div class="spec-grid" id="specGrid"></div>
+  </div>
+
+  <!-- ── About ── -->
+  <div class="card">
+    <div class="card-title"><span class="card-title-icon">👤</span> About</div>
+    <p class="bio-text" id="expertBio"></p>
+  </div>
+
+  <!-- ── Languages ── -->
+  <div class="card">
+    <div class="card-title"><span class="card-title-icon">🗣️</span> Languages</div>
+    <div class="lang-list" id="langList"></div>
+  </div>
+
+  <!-- ── Qualification ── -->
+  <div class="card">
+    <div class="card-title"><span class="card-title-icon">🎓</span> Qualification & Certifications</div>
+    <div class="spec-grid" id="qualGrid"></div>
+  </div>
+
+  <!-- ── Reviews ── -->
+  <div class="card">
+    <div class="card-title"><span class="card-title-icon">⭐</span> Client Reviews</div>
+    <div id="reviewsList">
+      <p style="font-size:13px;color:var(--muted);">Loading reviews…</p>
+    </div>
+  </div>
+
+  <div style="height: 16px;"></div>
+
+  <!-- ── Book Bar ── -->
+  <div class="book-bar">
+    <div class="book-price">
+      <span class="book-price-amount" id="bookFee">—</span>
+      <span class="book-price-label">per session</span>
+    </div>
+    <button class="book-btn" id="bookBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Book Consultation
+    </button>
+    <button class="share-btn" id="shareBtn" aria-label="Share">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    </button>
+  </div>
+
+  <script>
+  (function () {
+    var BASE   = (location.protocol === 'http:' || location.protocol === 'https:') ? '' : 'http://localhost:8000';
+    var params = new URLSearchParams(window.location.search);
+    var id     = params.get('id');
+
+    function showNotFound() {
+      document.querySelector('.hero-card').innerHTML = '<div style="padding:32px;text-align:center"><div style="font-size:40px;margin-bottom:12px">🔍</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">Expert not found</div><p style="font-size:13px;color:var(--muted)">This expert profile does not exist.</p><a href="explore.html" style="display:inline-block;margin-top:14px;padding:10px 20px;background:var(--accent);color:#fff;border-radius:12px;font-weight:700;text-decoration:none;font-size:13px">Browse Experts</a></div>';
+      document.getElementById('reviewsList').innerHTML = '';
+      document.querySelector('.book-bar').style.display = 'none';
+    }
+
+    function populate(e) {
+      var isNut = e.expert_type === 'nutritionist';
+      document.getElementById('expertAvatar').textContent  = isNut ? '🥗' : '💪';
+      document.getElementById('expertName').textContent    = e.name || 'Expert';
+      document.getElementById('expertExp').textContent     = e.experience ? e.experience + ' Exp.' : '';
+      document.getElementById('expertCity').textContent    = e.city || '';
+      document.getElementById('statRating').textContent    = e.rating ? e.rating.toFixed(1) : '—';
+      document.getElementById('statReviews').textContent   = '—';
+      document.getElementById('statClients').textContent   = '—';
+      document.getElementById('expertBio').textContent     = e.bio || 'No bio provided.';
+      document.getElementById('bookFee').textContent       = '₹' + Math.round(e.fees || 0).toLocaleString('en-IN');
+      document.title = (e.name || 'Expert') + ' — ZITLAS Experts';
+
+      var pill = document.getElementById('expertTypePill');
+      pill.textContent = isNut ? 'Nutritionist' : 'Fitness Trainer';
+      pill.className   = 'expert-type-pill ' + (isNut ? 'pill--nutri' : 'pill--trainer');
+
+      document.getElementById('verifiedBadge').style.display = e.verified ? '' : 'none';
+
+      document.getElementById('specGrid').innerHTML = (e.specializations || []).map(function (s) {
+        return '<span class="spec-chip">' + s + '</span>';
+      }).join('') || '<span style="font-size:13px;color:var(--muted)">Not specified</span>';
+
+      document.getElementById('langList').innerHTML = (e.languages || []).map(function (l) {
+        return '<span class="lang-tag">' + l + '</span>';
+      }).join('') || '<span style="font-size:13px;color:var(--muted)">Not specified</span>';
+
+      document.getElementById('qualGrid').innerHTML = e.qualification
+        ? '<span class="spec-chip">' + e.qualification + '</span>'
+        : '<span style="font-size:13px;color:var(--muted)">Not specified</span>';
+    }
+
+    function loadReviews() {
+      fetch(BASE + '/api/experts/' + id + '/reviews')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var el = document.getElementById('reviewsList');
+          if (!Array.isArray(data) || data.length === 0) {
+            el.innerHTML = '<p style="font-size:13px;color:var(--muted)">No reviews yet.</p>';
+            return;
+          }
+          document.getElementById('statReviews').textContent = data.length;
+          el.innerHTML = data.map(function (r) {
+            var stars = '★'.repeat(Math.round(r.rating || 0)) + '☆'.repeat(5 - Math.round(r.rating || 0));
+            return (
+              '<div class="review-card">' +
+                '<div class="reviewer-row">' +
+                  '<div class="reviewer-avatar">👤</div>' +
+                  '<span class="reviewer-name">Client</span>' +
+                  '<span class="review-rating">' + stars + ' ' + (r.rating || 0).toFixed(1) + '</span>' +
+                '</div>' +
+                (r.review ? '<p class="review-text">"' + r.review + '"</p>' : '') +
+              '</div>'
+            );
+          }).join('');
+        })
+        .catch(function () {
+          document.getElementById('reviewsList').innerHTML = '<p style="font-size:13px;color:var(--muted)">Could not load reviews.</p>';
+        });
+    }
+
+    if (!id) { showNotFound(); return; }
+
+    fetch(BASE + '/api/experts/' + id)
+      .then(function (r) {
+        if (!r.ok) { showNotFound(); return null; }
+        return r.json();
+      })
+      .then(function (e) {
+        if (!e) return;
+        populate(e);
+        loadReviews();
+
+        document.getElementById('bookBtn').addEventListener('click', function () {
+          var session = {};
+          try { session = JSON.parse(localStorage.getItem('zitlas_session') || '{}'); } catch (err) {}
+          if (!session.isLoggedIn) {
+            window.location.href = 'login.html?next=expert-profile.html?id=' + id;
+            return;
+          }
+          alert('Booking feature coming soon! We will notify you when ' + (e.name || 'this expert') + ' is available.');
+        });
+
+        document.getElementById('shareBtn').addEventListener('click', function () {
+          if (navigator.share) {
+            navigator.share({ title: (e.name || 'Expert') + ' on ZITLAS Experts', url: window.location.href });
+          } else {
+            navigator.clipboard.writeText(window.location.href);
+            alert('Profile link copied!');
+          }
+        });
+      })
+      .catch(function () { showNotFound(); });
+  })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,667 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Fitness Trainer Application — ZITLAS Experts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="coach-apply.css" />
+  <link rel="stylesheet" href="../../shared/otp.css" />
+  <script>
+    (function () {
+      var t = localStorage.getItem('zitlas_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+<body>
+<div class="app">
+
+  <!-- ── Progress Header ───────────────────────────── -->
+  <header class="prog-header" id="progHeader" style="display:none">
+    <div class="prog-inner">
+      <button class="back-btn" id="backBtn" aria-label="Back">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="prog-center">
+        <span class="prog-label" id="progLabel">Step 1 of 13</span>
+        <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+      </div>
+      <div class="prog-pct" id="progPct">8%</div>
+    </div>
+  </header>
+
+  <!-- ── Screens ───────────────────────────────────── -->
+  <main class="main" id="mainEl">
+
+    <!-- ════ WELCOME ════════════════════════════════ -->
+    <section class="screen active" id="screen-0">
+      <div class="welcome-wrap">
+        <div class="welcome-glow"></div>
+        <div class="welcome-sport-badge">💪 Fitness Coach</div>
+        <div class="welcome-logo-ring">
+          <span class="welcome-logo-z">Z</span>
+        </div>
+        <h1 class="welcome-title">Become a Verified Fitness Trainer on ZITLAS Experts</h1>
+        <p class="welcome-sub">Get discovered by clients seeking personalised fitness training across India.</p>
+        <div class="welcome-perks">
+          <div class="perk-card"><span class="perk-icon">✅</span><span class="perk-txt">Get Verified</span></div>
+          <div class="perk-card"><span class="perk-icon">🎯</span><span class="perk-txt">Get Discovered</span></div>
+          <div class="perk-card"><span class="perk-icon">🚀</span><span class="perk-txt">Grow Career</span></div>
+        </div>
+        <button class="start-btn" id="startBtn">Start Application</button>
+        <p class="welcome-note">Takes 6–8 minutes &nbsp;·&nbsp; 12 quick steps</p>
+      </div>
+    </section>
+
+    <!-- ════ STEP 1 · BASIC PROFILE ══════════════════ -->
+    <section class="screen" id="screen-1">
+      <div class="step-hdr">
+        <div class="step-emoji">👤</div>
+        <h2 class="step-title">Basic Profile</h2>
+        <p class="step-sub">Set up your public expert identity</p>
+      </div>
+      <div class="step-body">
+        <div class="form-group">
+          <label class="form-label">Full Name <span class="req">*</span></label>
+          <input type="text" class="form-input" id="coachName" placeholder="e.g. Rahul Sharma" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Profile Photo <span class="req">*</span></label>
+          <label class="drop-zone" for="photoFile">
+            <div class="drop-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <p class="drop-title" id="photoLabel">Upload Profile Photo</p>
+            <p class="drop-sub">JPG or PNG · Shows on your expert card</p>
+            <input type="file" id="photoFile" accept="image/*" hidden />
+          </label>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mobile Number <span class="req">*</span></label>
+          <div class="otp-row">
+            <div class="mobile-wrap">
+              <span class="country-code">+91</span>
+              <input type="tel" class="form-input mobile-input" id="mobileNum" placeholder="10-digit number" maxlength="10" />
+            </div>
+            <button class="send-otp-btn" id="sendOtpBtn" type="button">Send OTP</button>
+          </div>
+          <div class="otp-card" id="otpWrap" style="display:none">
+            <h3 class="otp-card-title">OTP Verification</h3>
+            <p class="otp-card-sub">Enter verification code</p>
+            <div class="otp-boxes" id="otpBoxes">
+              <input class="otp-box" type="text" maxlength="1" inputmode="numeric" />
+              <input class="otp-box" type="text" maxlength="1" inputmode="numeric" />
+              <input class="otp-box" type="text" maxlength="1" inputmode="numeric" />
+              <input class="otp-box" type="text" maxlength="1" inputmode="numeric" />
+              <input class="otp-box" type="text" maxlength="1" inputmode="numeric" />
+              <input class="otp-box" type="text" maxlength="1" inputmode="numeric" />
+            </div>
+            <button class="verify-otp-btn" id="verifyOtpBtn" type="button">Verify OTP</button>
+            <div id="otpCountdown" style="display:none;font-size:12px;color:rgba(255,255,255,0.5);font-weight:600;margin-top:8px;"></div>
+            <div id="otpError"    style="display:none;font-size:12px;color:#ff4444;font-weight:500;margin-top:6px;line-height:1.4;"></div>
+            <div class="otp-verified" id="otpVerified" style="display:none">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff8a00" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Mobile Verified
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address <span class="req">*</span></label>
+          <input type="email" class="form-input" id="coachEmail" placeholder="coach@example.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Gender <span class="req">*</span></label>
+          <div class="chips-grid chips-grid--3">
+            <button class="chip chip--large" data-group="gender" data-val="male">♂ Male</button>
+            <button class="chip chip--large" data-group="gender" data-val="female">♀ Female</button>
+            <button class="chip chip--large" data-group="gender" data-val="other">Other</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date of Birth <span class="req">*</span></label>
+          <div class="dob-row">
+            <select class="form-input dob-select" id="dobDay">
+              <option value="">Day</option>
+            </select>
+            <select class="form-input dob-select" id="dobMonth">
+              <option value="">Month</option>
+            </select>
+            <select class="form-input dob-select" id="dobYear">
+              <option value="">Year</option>
+            </select>
+          </div>
+          <input type="hidden" id="dob" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Current City <span class="req">*</span></label>
+          <input type="text" class="form-input" id="coachCity" placeholder="e.g. Pune, Maharashtra" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 2 · LANGUAGES ══════════════════════ -->
+    <section class="screen" id="screen-2">
+      <div class="step-hdr">
+        <div class="step-emoji">🗣️</div>
+        <h2 class="step-title">Languages</h2>
+        <p class="step-sub">Which languages do you speak?</p>
+      </div>
+      <div class="step-body">
+        <p class="form-hint" style="margin-bottom:12px">Select all that apply</p>
+        <div class="chips-grid">
+          <button class="chip" data-group="langs" data-multi="1" data-val="english">🇬🇧 English</button>
+          <button class="chip" data-group="langs" data-multi="1" data-val="hindi">🇮🇳 Hindi</button>
+          <button class="chip" data-group="langs" data-multi="1" data-val="marathi">Marathi</button>
+          <button class="chip" data-group="langs" data-multi="1" data-val="gujarati">Gujarati</button>
+          <button class="chip" data-group="langs" data-multi="1" data-val="tamil">Tamil</button>
+          <button class="chip" data-group="langs" data-multi="1" data-val="telugu">Telugu</button>
+          <button class="chip" data-group="langs" data-multi="1" data-val="kannada">Kannada</button>
+          <button class="chip" data-group="langs" data-multi="1" data-val="bengali">Bengali</button>
+          <button class="chip" data-group="langs" data-multi="1" data-val="other">Other</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 3 · FITNESS COACHING INFO ══════════ -->
+    <section class="screen" id="screen-3">
+      <div class="step-hdr">
+        <div class="step-emoji">💪</div>
+        <h2 class="step-title">Training Information</h2>
+        <p class="step-sub">Tell clients what you specialize in</p>
+      </div>
+      <div class="step-body">
+        <div class="form-group">
+          <label class="form-label">Your Specialization <span class="req">*</span></label>
+          <p class="form-hint">Select all that apply</p>
+          <div class="chips-grid">
+            <button class="chip" data-group="spec" data-multi="1" data-val="weight-loss-training">⚖️ Weight Loss Training</button>
+            <button class="chip" data-group="spec" data-multi="1" data-val="muscle-building">💪 Muscle Building</button>
+            <button class="chip" data-group="spec" data-multi="1" data-val="home-workout">🏠 Home Workout</button>
+            <button class="chip" data-group="spec" data-multi="1" data-val="gym-training">🏋️ Gym Training</button>
+            <button class="chip" data-group="spec" data-multi="1" data-val="strength-training">🔩 Strength Training</button>
+            <button class="chip" data-group="spec" data-multi="1" data-val="functional-training">🔄 Functional Training</button>
+            <button class="chip" data-group="spec" data-multi="1" data-val="beginner-fitness">🌱 Beginner Fitness</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 4 · EXPERIENCE ═════════════════════ -->
+    <section class="screen" id="screen-4">
+      <div class="step-hdr">
+        <div class="step-emoji">📅</div>
+        <h2 class="step-title">Experience</h2>
+        <p class="step-sub">Share your fitness coaching background</p>
+      </div>
+      <div class="step-body">
+        <div class="form-group">
+          <label class="form-label">Coaching Experience <span class="req">*</span></label>
+          <div class="chips-grid chips-grid--3">
+            <button class="chip chip--large" data-group="expYears" data-val="lt1">&lt; 1 Year</button>
+            <button class="chip chip--large" data-group="expYears" data-val="1-3">1–3 Years</button>
+            <button class="chip chip--large" data-group="expYears" data-val="3-5">3–5 Years</button>
+            <button class="chip chip--large" data-group="expYears" data-val="5-10">5–10 Years</button>
+            <button class="chip chip--large" data-group="expYears" data-val="10+">10+ Years</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Do you hold any fitness certifications? <span class="req">*</span></label>
+          <div class="chips-grid chips-grid--2">
+            <button class="chip chip--large" data-group="certLevel" data-val="none">❌ Not yet</button>
+            <button class="chip chip--large" data-group="certLevel" data-val="cpt">🏅 CPT (NASM/ACE)</button>
+            <button class="chip chip--large" data-group="certLevel" data-val="cscs">🥈 CSCS</button>
+            <button class="chip chip--large" data-group="certLevel" data-val="cf">🥇 CrossFit Level 1/2</button>
+            <button class="chip chip--large chip--full" data-group="certLevel" data-val="multiple">🌟 Multiple Certifications</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 5 · CLIENTS & STYLE ═══════════════ -->
+    <section class="screen" id="screen-5">
+      <div class="step-hdr">
+        <div class="step-emoji">🎯</div>
+        <h2 class="step-title">Clients &amp; Coaching Style</h2>
+        <p class="step-sub">Define who you coach best</p>
+      </div>
+      <div class="step-body">
+        <div class="form-group">
+          <label class="form-label">Age Groups You Coach <span class="req">*</span></label>
+          <p class="form-hint">Select all that apply</p>
+          <div class="chips-grid">
+            <button class="chip" data-group="ageGroups" data-multi="1" data-val="teens">Teens (13–18)</button>
+            <button class="chip" data-group="ageGroups" data-multi="1" data-val="young-adult">Young Adults (19–29)</button>
+            <button class="chip" data-group="ageGroups" data-multi="1" data-val="adults">Adults (30–45)</button>
+            <button class="chip" data-group="ageGroups" data-multi="1" data-val="senior">Seniors (45+)</button>
+            <button class="chip chip--full" data-group="ageGroups" data-multi="1" data-val="all">All Age Groups</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Client Fitness Level You Work With <span class="req">*</span></label>
+          <div class="chips-grid chips-grid--3">
+            <button class="chip chip--large" data-group="clientLevel" data-multi="1" data-val="beginners">🌱 Beginners</button>
+            <button class="chip chip--large" data-group="clientLevel" data-multi="1" data-val="intermediate">📈 Intermediate</button>
+            <button class="chip chip--large" data-group="clientLevel" data-multi="1" data-val="advanced">🏆 Advanced</button>
+            <button class="chip chip--large" data-group="clientLevel" data-multi="1" data-val="overweight">⚖️ Weight Issues</button>
+            <button class="chip chip--large chip--full" data-group="clientLevel" data-multi="1" data-val="all">All Levels</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 6 · STRENGTHS & BIO ════════════════ -->
+    <section class="screen" id="screen-6">
+      <div class="step-hdr">
+        <div class="step-emoji">💪</div>
+        <h2 class="step-title">Coaching Strengths</h2>
+        <p class="step-sub">What makes you the coach clients seek?</p>
+      </div>
+      <div class="step-body">
+        <div class="form-group">
+          <label class="form-label">Your Key Strengths <span class="req">*</span></label>
+          <p class="form-hint">Select all that apply</p>
+          <div class="chips-grid">
+            <button class="chip" data-group="strengths" data-multi="1" data-val="habit">🌱 Habit Building</button>
+            <button class="chip" data-group="strengths" data-multi="1" data-val="transformation">🏆 Body Transformation</button>
+            <button class="chip" data-group="strengths" data-multi="1" data-val="fitness">🏃 Fitness Training</button>
+            <button class="chip" data-group="strengths" data-multi="1" data-val="speed">⚡ HIIT & Cardio</button>
+            <button class="chip" data-group="strengths" data-multi="1" data-val="strength">💪 Strength Training</button>
+            <button class="chip" data-group="strengths" data-multi="1" data-val="mental">🧠 Mindset Coaching</button>
+            <button class="chip" data-group="strengths" data-multi="1" data-val="injury">🩺 Injury Recovery</button>
+            <button class="chip" data-group="strengths" data-multi="1" data-val="nutrition">🥗 Nutrition Guidance</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Coach Bio <span class="req">*</span></label>
+          <p class="form-hint">Tell clients about yourself — max 500 words</p>
+          <textarea class="form-input form-textarea form-textarea--tall" id="coachBio" placeholder="Hi, I'm Rahul. I have been a certified fitness trainer for 8 years and specialize in weight loss training and muscle building. I've helped 100+ clients achieve their fitness goals…" maxlength="2500"></textarea>
+          <span class="char-count"><span id="bioCount">0</span> / 500 words</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 7 · AVAILABILITY ═══════════════════ -->
+    <section class="screen" id="screen-7">
+      <div class="step-hdr">
+        <div class="step-emoji">📅</div>
+        <h2 class="step-title">Availability</h2>
+        <p class="step-sub">When are you available to coach?</p>
+      </div>
+      <div class="step-body">
+        <div class="form-group">
+          <label class="form-label">Session Type <span class="req">*</span></label>
+          <div class="chips-grid chips-grid--3">
+            <button class="chip chip--large" data-group="sessionType" data-val="online">💻 Online</button>
+            <button class="chip chip--large" data-group="sessionType" data-val="offline">🏟️ Offline</button>
+            <button class="chip chip--large" data-group="sessionType" data-val="both">🔀 Both</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Working Days <span class="req">*</span></label>
+          <p class="form-hint">Select all that apply</p>
+          <div class="chips-grid chips-grid--days">
+            <button class="chip" data-group="days" data-multi="1" data-val="mon">Mon</button>
+            <button class="chip" data-group="days" data-multi="1" data-val="tue">Tue</button>
+            <button class="chip" data-group="days" data-multi="1" data-val="wed">Wed</button>
+            <button class="chip" data-group="days" data-multi="1" data-val="thu">Thu</button>
+            <button class="chip" data-group="days" data-multi="1" data-val="fri">Fri</button>
+            <button class="chip" data-group="days" data-multi="1" data-val="sat">Sat</button>
+            <button class="chip" data-group="days" data-multi="1" data-val="sun">Sun</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Available Time Slots <span class="req">*</span></label>
+          <p class="form-hint">Select all that apply</p>
+          <div class="chips-grid">
+            <button class="chip" data-group="slots" data-multi="1" data-val="morning">🌅 Morning</button>
+            <button class="chip" data-group="slots" data-multi="1" data-val="afternoon">☀️ Afternoon</button>
+            <button class="chip" data-group="slots" data-multi="1" data-val="evening">🌆 Evening</button>
+            <button class="chip" data-group="slots" data-multi="1" data-val="night">🌙 Night</button>
+            <button class="chip" data-group="slots" data-multi="1" data-val="custom">⚙️ Custom Slots</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 8 · PRICING ═════════════════════════ -->
+    <section class="screen" id="screen-8">
+      <div class="step-hdr">
+        <div class="step-emoji">💰</div>
+        <h2 class="step-title">Pricing</h2>
+        <p class="step-sub">Set your pricing packages — you can edit these later</p>
+      </div>
+      <div class="step-body">
+        <div class="form-group">
+          <label class="form-label">1️⃣ One-Day Review Fee <span class="req">*</span></label>
+          <p class="form-hint">Review of diet, workout, and progress for 1 day</p>
+          <div class="fee-input-wrap">
+            <span class="fee-prefix">₹</span>
+            <input type="number" class="form-input fee-input" id="feeDayReview" placeholder="e.g. 299" min="0" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">2️⃣ One-Week Review Fee <span class="req">*</span></label>
+          <p class="form-hint">7-day plan review and expert guidance</p>
+          <div class="fee-input-wrap">
+            <span class="fee-prefix">₹</span>
+            <input type="number" class="form-input fee-input" id="feeWeekReview" placeholder="e.g. 799" min="0" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">3️⃣ Personal Coaching Fee <span class="req">*</span></label>
+          <p class="form-hint">1-on-1 coaching with continuous support</p>
+          <div class="fee-input-wrap">
+            <span class="fee-prefix">₹</span>
+            <input type="number" class="form-input fee-input" id="feeMonthly" placeholder="e.g. 4999" min="0" />
+            <span class="fee-suffix">per month</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">WhatsApp Support Included? <span class="req">*</span></label>
+          <div class="chips-grid chips-grid--2">
+            <button class="chip chip--large" data-group="whatsapp" data-val="yes">✅ Yes</button>
+            <button class="chip chip--large" data-group="whatsapp" data-val="no">❌ No</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Video Consultation Available? <span class="req">*</span></label>
+          <div class="chips-grid chips-grid--2">
+            <button class="chip chip--large" data-group="videoCall" data-val="yes">✅ Yes</button>
+            <button class="chip chip--large" data-group="videoCall" data-val="no">❌ No</button>
+          </div>
+        </div>
+        <div class="pricing-tip">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Experts offering affordable review packages receive more inquiries.
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 10 · CREDIBILITY ═══════════════════ -->
+    <section class="screen" id="screen-10">
+      <div class="step-hdr">
+        <div class="step-emoji">🏅</div>
+        <h2 class="step-title">Credibility &amp; Documents</h2>
+        <p class="step-sub">Verified coaches get 5× more bookings</p>
+      </div>
+      <div class="step-body">
+
+        <div class="doc-section-label required-label">
+          <span class="doc-badge required-badge">Required</span>
+          Mandatory Documents
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-hdr">
+            <span class="doc-card-title">Government ID Proof <span class="req">*</span></span>
+          </div>
+          <p class="doc-card-sub">Any one of the following</p>
+          <div class="chips-grid chips-grid--2" style="margin-bottom:12px">
+            <button class="chip" data-group="idType" data-val="aadhaar">🪪 Aadhaar Card</button>
+            <button class="chip" data-group="idType" data-val="pan">💳 PAN Card</button>
+            <button class="chip" data-group="idType" data-val="passport">📒 Passport</button>
+            <button class="chip" data-group="idType" data-val="license">🚗 Driving License</button>
+          </div>
+          <label class="drop-zone drop-zone--sm" for="idFile">
+            <div class="drop-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+            <p class="drop-title" id="idLabel">Upload ID Document</p>
+            <p class="drop-sub">PDF, JPG or PNG</p>
+            <input type="file" id="idFile" accept="image/*,.pdf" hidden />
+          </label>
+        </div>
+
+        <div class="doc-section-label" style="margin-top:4px">
+          <span class="doc-badge optional-badge">Optional</span>
+          Recommended — Boosts Your Score
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-hdr"><span class="doc-card-title">Fitness Certifications</span></div>
+          <p class="doc-card-sub">NASM · ACE · CSCS · CrossFit Level · ISSA · Any other</p>
+          <label class="drop-zone drop-zone--sm" for="certFile">
+            <div class="drop-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+            <p class="drop-title" id="certLabel">Upload Certificates</p>
+            <p class="drop-sub">PDF or Image · Multiple allowed</p>
+            <input type="file" id="certFile" accept="image/*,.pdf" multiple hidden />
+          </label>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-hdr"><span class="doc-card-title">Professional Experience Proof</span></div>
+          <p class="doc-card-sub">Work history letters, employer references, or experience proof</p>
+          <label class="drop-zone drop-zone--sm" for="playFile">
+            <div class="drop-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+            <p class="drop-title" id="playLabel">Upload Experience Proof</p>
+            <p class="drop-sub">PDF or Image</p>
+            <input type="file" id="playFile" accept="image/*,.pdf" multiple hidden />
+          </label>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-hdr"><span class="doc-card-title">Achievement Photos</span></div>
+          <p class="doc-card-sub">Transformation photos, fitness milestones, achievement shots</p>
+          <label class="drop-zone drop-zone--sm" for="achieveFile">
+            <div class="drop-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <p class="drop-title" id="achieveLabel">Upload Photos</p>
+            <p class="drop-sub">JPG or PNG · Up to 10 photos</p>
+            <input type="file" id="achieveFile" accept="image/*" multiple hidden />
+          </label>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════ STEP 11 · INTRODUCTION VIDEO ═══════════ -->
+    <section class="screen" id="screen-11">
+      <div class="step-hdr">
+        <div class="step-emoji">🎥</div>
+        <h2 class="step-title">Introduction Video</h2>
+        <p class="step-sub">The most powerful trust signal for coaches</p>
+      </div>
+      <div class="step-body">
+
+        <div class="video-trust-card">
+          <div class="video-trust-icon">🎥</div>
+          <h3 class="video-trust-title">Introduce Yourself</h3>
+          <p class="video-trust-desc">Record a 30–60 second video introducing yourself to potential clients. Fitness Trainers with intro videos receive <strong>8× more profile views.</strong></p>
+          <div class="video-trust-tags">
+            <span class="video-tag">30–60 seconds</span>
+            <span class="video-tag">🔒 Builds Trust</span>
+            <span class="video-tag">⭐ Score +20pts</span>
+          </div>
+        </div>
+
+        <div class="video-script-card">
+          <p class="video-script-label">💡 Example Script</p>
+          <p class="video-script-text">"Hi, I'm Rahul, a certified Fitness Trainer with 8 years of experience specializing in weight loss training and muscle building. I've helped 100+ clients achieve their transformation goals. Book a free consultation and let's start your fitness journey!"</p>
+        </div>
+
+        <div class="form-group">
+          <label class="drop-zone drop-zone--video" for="videoFile">
+            <div class="drop-icon-wrap drop-icon-wrap--video">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            </div>
+            <p class="drop-title" id="videoLabel">Upload Introduction Video</p>
+            <p class="drop-sub">MP4 or MOV · Max 100 MB · 30–60 seconds</p>
+            <span class="video-req-badge">Required</span>
+            <input type="file" id="videoFile" accept="video/*" hidden />
+          </label>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════ STEP 12 · SOCIAL PROOF ══════════════════ -->
+    <section class="screen" id="screen-12">
+      <div class="step-hdr">
+        <div class="step-emoji">⭐</div>
+        <h2 class="step-title">Social Proof</h2>
+        <p class="step-sub">Your track record attracts more clients</p>
+      </div>
+      <div class="step-body">
+        <div class="form-group">
+          <label class="form-label">Clients You've Trained <span class="req">*</span></label>
+          <div class="chips-grid chips-grid--3">
+            <button class="chip chip--large" data-group="clientCount" data-val="0-10">0–10</button>
+            <button class="chip chip--large" data-group="clientCount" data-val="10-50">10–50</button>
+            <button class="chip chip--large" data-group="clientCount" data-val="50-100">50–100</button>
+            <button class="chip chip--large" data-group="clientCount" data-val="100-500">100–500</button>
+            <button class="chip chip--large chip--full" data-group="clientCount" data-val="500+">500+</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Notable Achievements</label>
+          <p class="form-hint">e.g. Clients trained · Certifications earned · Fitness milestones</p>
+          <textarea class="form-input form-textarea" id="achievements" placeholder="Clients Trained: 50+&#10;Online Clients: 20&#10;Weight Loss Transformations: 15&#10;Certifications: NASM-CPT, ACE" style="height:100px"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Client Testimonials <span class="form-optional">(Optional)</span></label>
+          <p class="form-hint">Upload screenshots or short videos from past clients</p>
+          <label class="drop-zone drop-zone--sm" for="testimonialsFile">
+            <div class="drop-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <p class="drop-title" id="testimonialLabel">Upload Testimonials</p>
+            <p class="drop-sub">Screenshots or short videos</p>
+            <input type="file" id="testimonialsFile" accept="image/*,video/*" multiple hidden />
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ FINAL SCREEN ════════════════════════════ -->
+    <section class="screen" id="screen-final">
+      <div class="final-wrap">
+        <div class="final-icon">🎉</div>
+        <h2 class="final-title">Application Submitted!</h2>
+        <p class="final-sub">Your application has been submitted successfully. Our verification team will review your documents and contact you shortly.</p>
+
+        <!-- Scores -->
+        <div class="scores-section">
+          <p class="scores-label">Your Expert Scores</p>
+          <div class="score-row">
+            <span class="score-name">Expert Profile Score</span>
+            <div class="score-bar-track"><div class="score-bar-fill" data-score="78"></div></div>
+            <span class="score-val" id="sv1">0</span>
+          </div>
+          <div class="score-row">
+            <span class="score-name">Experience Score</span>
+            <div class="score-bar-track"><div class="score-bar-fill" data-score="65"></div></div>
+            <span class="score-val" id="sv2">0</span>
+          </div>
+          <div class="score-row">
+            <span class="score-name">Certification Score</span>
+            <div class="score-bar-track"><div class="score-bar-fill" data-score="72"></div></div>
+            <span class="score-val" id="sv3">0</span>
+          </div>
+          <div class="score-row">
+            <span class="score-name">Verification Score</span>
+            <div class="score-bar-track"><div class="score-bar-fill" data-score="80"></div></div>
+            <span class="score-val" id="sv4">0</span>
+          </div>
+          <div class="score-row">
+            <span class="score-name">Trust Score</span>
+            <div class="score-bar-track"><div class="score-bar-fill" data-score="85"></div></div>
+            <span class="score-val" id="sv5">0</span>
+          </div>
+        </div>
+
+        <!-- Coach Badge -->
+        <div class="badge-section">
+          <p class="scores-label">Your Recommended Badge</p>
+          <div class="badge-cards">
+            <div class="badge-card">
+              <span class="badge-medal">🥉</span>
+              <span class="badge-name">Rising Trainer</span>
+              <span class="badge-range">0–50</span>
+            </div>
+            <div class="badge-card">
+              <span class="badge-medal">🥈</span>
+              <span class="badge-name">Verified Trainer</span>
+              <span class="badge-range">50–75</span>
+            </div>
+            <div class="badge-card badge-card--recommended">
+              <span class="badge-rec-label">Your Badge</span>
+              <span class="badge-medal">🥇</span>
+              <span class="badge-name">Elite Trainer</span>
+              <span class="badge-range">75–90</span>
+            </div>
+            <div class="badge-card">
+              <span class="badge-medal">🏆</span>
+              <span class="badge-name">Pro Trainer</span>
+              <span class="badge-range">90–100</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="final-actions">
+          <a href="../../profile/account/account-profile.html" class="final-btn-primary">Go to Profile</a>
+          <button class="final-btn-secondary" type="button">Track Application Status</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Step Nav ───────────────────────────────────── -->
+  <div class="step-nav" id="stepNav" style="display:none">
+    <button class="step-back" id="stepBackBtn" type="button">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </button>
+    <button class="step-next" id="stepNextBtn" type="button">Continue
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+
+  <!-- ── Bottom Nav ─────────────────────────────────── -->
+  <nav class="bottom-nav">
+    <a href="#" class="nav-item nav-item--active">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+      <span>Apply</span>
+    </a>
+    <a href="../../affiliate/affiliate.html" class="nav-item nav-item--affiliate">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      <span>Affiliate</span>
+    </a>
+    <a href="../../profile/account/account-profile.html" class="nav-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <!-- ── Settings Modal ─────────────────────────────── -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <span class="sheet-title">Settings</span>
+        <button class="sheet-close" id="closeBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="sheet-body">
+        <p class="sheet-section-label">Appearance</p>
+        <div class="theme-toggle">
+          <button class="theme-btn" id="lightBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            Light
+          </button>
+          <button class="theme-btn" id="darkBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            Dark
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="app-toast" id="appToast"></div>
+
+</div>
+<script src="coach-apply.js"></script>
+<script src="../../shared/bottom-nav.js"></script>
+</body>
+</html>

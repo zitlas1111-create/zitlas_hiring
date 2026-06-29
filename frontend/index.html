@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ZITLAS</title>
+  <script>
+    (function () {
+      /* Purge ALL stale academy / opportunities data */
+      var BAD = ['academy', 'opportunities', 'academy-opportunities'];
+      function bad(s) { for (var i = 0; i < BAD.length; i++) { if (s.indexOf(BAD[i]) !== -1) return true; } return false; }
+      try { for (var i = localStorage.length - 1; i >= 0; i--) { var k = localStorage.key(i); if (bad(k) || bad(localStorage.getItem(k) || '')) localStorage.removeItem(k); } } catch (e) {}
+      try { for (var j = sessionStorage.length - 1; j >= 0; j--) { var sk = sessionStorage.key(j); if (bad(sk) || bad(sessionStorage.getItem(sk) || '')) sessionStorage.removeItem(sk); } } catch (e) {}
+
+      /* Route logged-in users: experts → their dashboard, users → home */
+      var EXPERT_ROLES = { nutritionist: 1, fitness_coach: 1, fitness_trainer: 1, coach: 1, both: 1 };
+      var EXPERT_MAP = {
+        nutritionist:                 'apply/nutritionist/nutritionist-apply.html',
+        fitness_coach:                'apply/coach/coach-apply.html',
+        fitness_trainer:              'apply/coach/coach-apply.html',
+        coach:                        'apply/coach/coach-apply.html',
+        both:                         'apply/both/both-apply.html',
+        'nutritionist,fitness_coach': 'apply/both/both-apply.html',
+        affiliate:                    'affiliate/affiliate.html'
+      };
+      try {
+        var s = JSON.parse(localStorage.getItem('zitlas_session'));
+        var t = localStorage.getItem('zitlas_token');
+        if ((s && s.isLoggedIn) || t) {
+          var role = (s && s.role) || 'user';
+          if (role === 'user' || !EXPERT_ROLES[role]) {
+            window.location.replace('home.html');
+          } else {
+            window.location.replace(EXPERT_MAP[role] || 'home.html');
+          }
+          return;
+        }
+      } catch (e) {}
+      window.location.replace('login.html');
+    })();
+  </script>
+</head>
+<body></body>
+</html>

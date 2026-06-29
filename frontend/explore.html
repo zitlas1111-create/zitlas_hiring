@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Explore Experts — ZITLAS Experts</title>
+  <script src="shared/auth-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      var t = localStorage.getItem('zitlas_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f5f5f7;
+      --surface:  #ffffff;
+      --border:   rgba(0,0,0,0.08);
+      --text:     #111827;
+      --muted:    #6b7280;
+      --accent:   #FF7A00;
+      --accent-l: rgba(255,122,0,0.10);
+      --nav-h:    64px;
+    }
+    [data-theme="dark"] {
+      --bg:      #080910;
+      --surface: #0f1117;
+      --border:  rgba(255,255,255,0.08);
+      --text:    #f0f4f0;
+      --muted:   #6b7280;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      padding-bottom: calc(var(--nav-h) + 16px);
+    }
+
+    /* ── Header ── */
+    .header {
+      position: sticky; top: 0; z-index: 40;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px;
+    }
+    .header-top {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .page-title { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
+    .page-sub   { font-size: 12px; color: var(--muted); }
+
+    /* ── Search ── */
+    .search-wrap {
+      position: relative;
+    }
+    .search-icon {
+      position: absolute;
+      left: 12px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+    .search-input {
+      width: 100%;
+      height: 40px;
+      padding: 0 12px 0 36px;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .search-input::placeholder { color: var(--muted); }
+    .search-input:focus { border-color: var(--accent); }
+
+    /* ── Filter Pills ── */
+    .filters {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .filters::-webkit-scrollbar { display: none; }
+
+    .filter-pill {
+      flex-shrink: 0;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .filter-pill.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .filter-pill:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Sort row ── */
+    .sort-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px 4px;
+    }
+    .results-count { font-size: 12px; color: var(--muted); }
+    .sort-select {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-family: inherit;
+      color: var(--text);
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* ── Expert Cards ── */
+    .experts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 8px 16px;
+    }
+
+    .expert-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      gap: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.15s, transform 0.1s;
+    }
+    .expert-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+
+    .expert-avatar {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      overflow: hidden;
+      background: var(--accent-l);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+      position: relative;
+    }
+    .expert-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+    .verified-dot {
+      position: absolute;
+      bottom: 2px; right: 2px;
+      width: 16px; height: 16px;
+      background: #10b981;
+      border: 2px solid var(--surface);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .verified-dot svg { display: block; }
+
+    .expert-info { flex: 1; min-width: 0; }
+
+    .expert-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2px;
+    }
+    .expert-name { font-size: 15px; font-weight: 700; }
+    .expert-fee  { font-size: 13px; font-weight: 700; color: var(--accent); }
+
+    .expert-type-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+    .expert-type-pill--nutri  { background: rgba(16,185,129,0.12); color: #059669; }
+    .expert-type-pill--trainer { background: rgba(255,122,0,0.12); color: #FF7A00; }
+
+    .expert-specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+    .spec-tag {
+      font-size: 10px;
+      padding: 2px 7px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .expert-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .expert-rating .star { color: #f59e0b; }
+
+    /* ── Empty state ── */
+    .empty-state {
+      padding: 48px 16px;
+      text-align: center;
+    }
+    .empty-icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .empty-sub   { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* ── Bottom Nav ── */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      z-index: 50;
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      flex: 1;
+      padding: 8px 0;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 600;
+      transition: color 0.15s;
+    }
+    .nav-item.active, .nav-item:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header class="header">
+    <div class="header-top">
+      <div>
+        <div class="page-title">Explore Experts</div>
+        <div class="page-sub">Find certified Nutritionists & Fitness Trainers</div>
+      </div>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span>
+      <input class="search-input" type="text" id="searchInput" placeholder="Search by name, city, or specialization…" />
+    </div>
+  </header>
+
+  <!-- ── Filters ── -->
+  <div class="filters" id="filterBar">
+    <button class="filter-pill active" data-filter="all">All Experts</button>
+    <button class="filter-pill" data-filter="nutritionist">Nutritionist</button>
+    <button class="filter-pill" data-filter="fitness_trainer">Fitness Trainer</button>
+    <button class="filter-pill" data-filter="verified">✅ Verified Only</button>
+    <button class="filter-pill" data-filter="weight-loss">Weight Loss</button>
+    <button class="filter-pill" data-filter="muscle-building">Muscle Building</button>
+    <button class="filter-pill" data-filter="diabetes">Diabetes</button>
+    <button class="filter-pill" data-filter="pcos">PCOS</button>
+  </div>
+
+  <!-- ── Sort ── -->
+  <div class="sort-row">
+    <span class="results-count" id="resultsCount">Showing all experts</span>
+    <select class="sort-select" id="sortSelect">
+      <option value="rating">Top Rated</option>
+      <option value="price-low">Price: Low to High</option>
+      <option value="price-high">Price: High to Low</option>
+      <option value="newest">Newest</option>
+    </select>
+  </div>
+
+  <!-- ── Expert List ── -->
+  <div class="experts-list" id="expertsList">
+    <div class="empty-state">
+      <div class="empty-icon">⏳</div>
+      <div class="empty-title">Loading experts…</div>
+    </div>
+  </div>
+
+  <!-- ── Bottom Nav ── -->
+  <nav class="bottom-nav">
+    <a class="nav-item" href="home.html">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span>Home</span>
+    </a>
+    <a class="nav-item active" href="explore.html">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span>Explore</span>
+    </a>
+    <a class="nav-item" href="consultations.html">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span>Sessions</span>
+    </a>
+    <a class="nav-item" href="messages.html">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span>Messages</span>
+    </a>
+    <a class="nav-item" href="profile/account/account-profile.html">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script>
+  (function () {
+    var BASE    = (location.protocol === 'http:' || location.protocol === 'https:') ? '' : 'http://localhost:8000';
+    var pills   = document.querySelectorAll('.filter-pill');
+    var search  = document.getElementById('searchInput');
+    var list    = document.getElementById('expertsList');
+    var count   = document.getElementById('resultsCount');
+    var current = 'all';
+    var allExperts = [];
+
+    function icon(type) { return type === 'nutritionist' ? '🥗' : '💪'; }
+
+    function fee(f) { return '₹' + Math.round(f || 0).toLocaleString('en-IN'); }
+
+    function renderCard(e) {
+      var isNut   = e.expert_type === 'nutritionist';
+      var pillCls = isNut ? 'expert-type-pill--nutri' : 'expert-type-pill--trainer';
+      var label   = isNut ? 'Nutritionist' : 'Fitness Trainer';
+      var vDot    = e.verified
+        ? '<span class="verified-dot"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>'
+        : '';
+      var specs = (e.specializations || []).slice(0, 3).map(function (s) {
+        return '<span class="spec-tag">' + s + '</span>';
+      }).join('');
+      var rating = e.rating ? e.rating.toFixed(1) : '—';
+      var meta   = '<span class="expert-rating"><span class="star">★</span> ' + rating + '</span>';
+      if (e.city) meta += '<span>·</span><span>' + e.city + '</span>';
+      return (
+        '<a class="expert-card" href="expert-profile.html?id=' + e.id + '" data-type="' + e.expert_type + '">' +
+          '<div class="expert-avatar">' + icon(e.expert_type) + vDot + '</div>' +
+          '<div class="expert-info">' +
+            '<div class="expert-top-row">' +
+              '<span class="expert-name">' + (e.name || 'Expert') + '</span>' +
+              '<span class="expert-fee">' + fee(e.fees) + '</span>' +
+            '</div>' +
+            '<span class="expert-type-pill ' + pillCls + '">' + label + '</span>' +
+            '<div class="expert-specs">' + specs + '</div>' +
+            '<div class="expert-meta">' + meta + '</div>' +
+          '</div>' +
+        '</a>'
+      );
+    }
+
+    function filterAndRender() {
+      var q = (search ? search.value : '').toLowerCase().trim();
+      var filtered = allExperts.filter(function (e) {
+        var typeMatch = true;
+        if (current === 'nutritionist')      typeMatch = e.expert_type === 'nutritionist';
+        else if (current === 'fitness_trainer') typeMatch = e.expert_type === 'fitness_trainer';
+        else if (current === 'verified')     typeMatch = !!e.verified;
+        else if (current !== 'all') {
+          var txt = ((e.name || '') + ' ' + (e.city || '') + ' ' + (e.specializations || []).join(' ')).toLowerCase();
+          typeMatch = txt.indexOf(current.replace('-', ' ')) !== -1;
+        }
+        var searchMatch = !q || ((e.name || '') + ' ' + (e.city || '') + ' ' + (e.specializations || []).join(' ')).toLowerCase().indexOf(q) !== -1;
+        return typeMatch && searchMatch;
+      });
+
+      if (filtered.length === 0) {
+        var msg = allExperts.length === 0
+          ? '<div class="empty-sub">Be the first certified expert on ZITLAS.</div>'
+          : '<div class="empty-sub">Try different filters or a different search term.</div>';
+        list.innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No experts found</div>' + msg + '</div>';
+        count.textContent = 'Showing 0 experts';
+      } else {
+        list.innerHTML = filtered.map(renderCard).join('');
+        count.textContent = 'Showing ' + filtered.length + ' expert' + (filtered.length !== 1 ? 's' : '');
+      }
+    }
+
+    pills.forEach(function (pill) {
+      pill.addEventListener('click', function () {
+        pills.forEach(function (p) { p.classList.remove('active'); });
+        pill.classList.add('active');
+        current = pill.getAttribute('data-filter');
+        filterAndRender();
+      });
+    });
+
+    if (search) search.addEventListener('input', filterAndRender);
+
+    fetch(BASE + '/api/experts/')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        allExperts = Array.isArray(data) ? data : [];
+        filterAndRender();
+      })
+      .catch(function () {
+        list.innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Could not load experts</div><div class="empty-sub">Please check your connection and try again.</div></div>';
+        count.textContent = '';
+      });
+  })();
+  </script>
+
+</body>
+</html>

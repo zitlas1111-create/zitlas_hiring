@@ -1,0 +1,707 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Nutritionist Application — ZITLAS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="nutritionist-apply.css" />
+  <link rel="stylesheet" href="../../shared/otp.css" />
+  <script>
+    (function () {
+      var t = localStorage.getItem('zitlas_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+<body>
+<div class="app">
+
+  <!-- ── Progress Header ───────────────────────────── -->
+  <header class="prog-header" id="progHeader" style="display:none">
+    <div class="prog-inner">
+      <button class="back-btn" id="backBtn" aria-label="Back">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="prog-center">
+        <span class="prog-label" id="progLabel">Step 1 of 11</span>
+        <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+      </div>
+      <div class="prog-pct" id="progPct">9%</div>
+    </div>
+  </header>
+
+  <!-- ── Screens ───────────────────────────────────── -->
+  <main class="main" id="mainEl">
+
+    <!-- ════ WELCOME ════════════════════════════════ -->
+    <section class="screen active" id="screen-0">
+      <div class="welcome-wrap">
+        <div class="welcome-glow"></div>
+        <div class="welcome-sport-badge">🥗 Nutritionist</div>
+        <div class="welcome-logo-ring">
+          <span class="welcome-logo-z">Z</span>
+        </div>
+        <h1 class="welcome-title">Become a Verified Nutritionist on ZITLAS</h1>
+        <p class="welcome-sub">Help clients transform their health through expert nutrition guidance and personalized plans.</p>
+        <div class="welcome-perks">
+          <div class="perk-card"><span class="perk-icon">✅</span><span class="perk-txt">Get Verified</span></div>
+          <div class="perk-card"><span class="perk-icon">🌐</span><span class="perk-txt">Reach Clients</span></div>
+          <div class="perk-card"><span class="perk-icon">📈</span><span class="perk-txt">Grow Practice</span></div>
+        </div>
+        <button class="start-btn" id="startBtn">Start Application</button>
+        <p class="welcome-note">Takes 5–8 minutes &nbsp;·&nbsp; 11 quick steps</p>
+      </div>
+    </section>
+
+    <!-- ════ STEP 1 · BASIC PROFILE ══════════════════ -->
+    <section class="screen" id="screen-1">
+      <div class="step-hdr">
+        <div class="step-emoji">👤</div>
+        <h2 class="step-title">Basic Profile</h2>
+        <p class="step-sub">Set up your public nutritionist identity</p>
+      </div>
+      <div class="step-body">
+        <div class="form-group">
+          <label class="form-label">Full Name <span class="req">*</span></label>
+          <input type="text" class="form-input" id="nutName" placeholder="e.g. Dr. Neha Joshi" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Profile Photo <span class="req">*</span></label>
+          <label class="drop-zone" for="photoFile">
+            <div class="drop-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <p class="drop-title" id="photoLabel">Upload Profile Photo</p>
+            <p class="drop-sub">JPG or PNG · Shown on your profile card</p>
+            <input type="file" id="photoFile" accept="image/*" hidden />
+          </label>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mobile Number <span class="req">*</span></label>
+          <div class="otp-row">
+            <div class="mobile-wrap">
+              <span class="country-code">+91</span>
+              <input type="tel" class="form-input mobile-input" id="mobileNum" placeholder="10-digit number" maxlength="10" />
+            </div>
+            <button class="send-otp-btn" id="sendOtpBtn" type="button">Send OTP</button>
+          </div>
+          <div class="otp-card" id="otpWrap" style="display:none">
+            <h3 class="otp-card-title">OTP Verification</h3>
+            <p class="otp-card-sub">Enter verification code</p>
+            <div class="otp-boxes">
+              <input class="otp-box" type="text" maxlength="1" inputmode="numeric" />
+              <input class="otp-box" type="text" maxlength="1" inputmode="numeric" />
+              <input class="otp-box" type="text" maxlength="1" inputmode="numeric" />
+              <input class="otp-box" type="text" maxlength="1" inputmode="numeric" />
+              <input class="otp-box" type="text" maxlength="1" inputmode="numeric" />
+              <input class="otp-box" type="text" maxlength="1" inputmode="numeric" />
+            </div>
+            <button class="verify-otp-btn" id="verifyOtpBtn" type="button">Verify OTP</button>
+            <div id="otpCountdown" style="display:none;font-size:12px;color:rgba(255,255,255,0.5);font-weight:600;margin-top:8px;"></div>
+            <div id="otpError"    style="display:none;font-size:12px;color:#ff4444;font-weight:500;margin-top:6px;line-height:1.4;"></div>
+            <div class="otp-verified" id="otpVerified" style="display:none">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff8a00" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Mobile Verified
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address <span class="req">*</span></label>
+          <input type="email" class="form-input" id="nutEmail" placeholder="nutritionist@example.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Gender <span class="req">*</span></label>
+          <div class="chips-grid chips-grid--3">
+            <button class="chip chip--large" data-group="gender" data-val="male">♂ Male</button>
+            <button class="chip chip--large" data-group="gender" data-val="female">♀ Female</button>
+            <button class="chip chip--large" data-group="gender" data-val="other">Other</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date of Birth <span class="req">*</span></label>
+          <div class="dob-row">
+            <select class="form-input dob-select" id="dobDay">
+              <option value="">Day</option>
+            </select>
+            <select class="form-input dob-select" id="dobMonth">
+              <option value="">Month</option>
+            </select>
+            <select class="form-input dob-select" id="dobYear">
+              <option value="">Year</option>
+            </select>
+          </div>
+          <input type="hidden" id="dob" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Current City <span class="req">*</span></label>
+          <input type="text" class="form-input" id="nutCity" placeholder="e.g. Pune, Maharashtra" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 2 · PROFESSIONAL INFO ══════════════ -->
+    <section class="screen" id="screen-2">
+      <div class="step-hdr">
+        <div class="step-emoji">🎓</div>
+        <h2 class="step-title">Professional Information</h2>
+        <p class="step-sub">Your qualifications and background</p>
+      </div>
+      <div class="step-body">
+        <div class="form-group">
+          <label class="form-label">Highest Qualification <span class="req">*</span></label>
+          <div class="chips-grid">
+            <button class="chip" data-group="qualification" data-val="bsc">BSc Nutrition</button>
+            <button class="chip" data-group="qualification" data-val="msc">MSc Nutrition</button>
+            <button class="chip" data-group="qualification" data-val="rd">Registered Dietitian (RD)</button>
+            <button class="chip" data-group="qualification" data-val="wellness-cert">Wellness Nutrition Certification</button>
+            <button class="chip chip--full" data-group="qualification" data-val="other">Other</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Years of Experience <span class="req">*</span></label>
+          <div class="chips-grid chips-grid--3">
+            <button class="chip chip--large" data-group="expYears" data-val="lt1">&lt; 1 Year</button>
+            <button class="chip chip--large" data-group="expYears" data-val="1-3">1–3 Years</button>
+            <button class="chip chip--large" data-group="expYears" data-val="3-5">3–5 Years</button>
+            <button class="chip chip--large" data-group="expYears" data-val="5-10">5–10 Years</button>
+            <button class="chip chip--large chip--full" data-group="expYears" data-val="10+">10+ Years</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Are you a Registered Dietitian? <span class="req">*</span></label>
+          <div class="chips-grid chips-grid--2">
+            <button class="chip chip--large" data-group="isRD" data-val="yes">✅ Yes, I am an RD</button>
+            <button class="chip chip--large" data-group="isRD" data-val="no">❌ Not yet</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 3 · WELLNESS & CLIENT SPEC ═══════════ -->
+    <section class="screen" id="screen-3">
+      <div class="step-hdr">
+        <div class="step-emoji">🌿</div>
+        <h2 class="step-title">Wellness &amp; Client Specialization</h2>
+        <p class="step-sub">Define who you serve best</p>
+      </div>
+      <div class="step-body">
+        <div class="form-group">
+          <label class="form-label">Your Wellness Focus Areas <span class="req">*</span></label>
+          <p class="form-hint">Select all that apply</p>
+          <div class="chips-grid">
+            <button class="chip" data-group="wellness" data-multi="1" data-val="weight-loss">⚖️ Weight Loss</button>
+            <button class="chip" data-group="wellness" data-multi="1" data-val="muscle-gain">💪 Muscle Gain</button>
+            <button class="chip" data-group="wellness" data-multi="1" data-val="diabetes">🩺 Diabetes Management</button>
+            <button class="chip" data-group="wellness" data-multi="1" data-val="gut-health">🌿 Gut Health</button>
+            <button class="chip" data-group="wellness" data-multi="1" data-val="hormone">⚡ Hormone Balance</button>
+            <button class="chip" data-group="wellness" data-multi="1" data-val="lifestyle">🌟 Lifestyle Transformation</button>
+            <button class="chip" data-group="wellness" data-multi="1" data-val="immunity">🛡️ Immunity Boosting</button>
+            <button class="chip" data-group="wellness" data-multi="1" data-val="kids">👶 Child Nutrition</button>
+            <button class="chip" data-group="wellness" data-multi="1" data-val="senior">👴 Senior Wellness</button>
+            <button class="chip chip--full" data-group="wellness" data-multi="1" data-val="general">🥗 General Wellness</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Which clients do you primarily serve? <span class="req">*</span></label>
+          <p class="form-hint">Select all that apply</p>
+          <div class="chips-grid">
+            <button class="chip" data-group="clients" data-multi="1" data-val="teens">🧒 Teens & Young Adults</button>
+            <button class="chip" data-group="clients" data-multi="1" data-val="working">💼 Working Professionals</button>
+            <button class="chip" data-group="clients" data-multi="1" data-val="homemakers">🏠 Homemakers</button>
+            <button class="chip" data-group="clients" data-multi="1" data-val="senior-clients">👴 Senior Citizens</button>
+            <button class="chip" data-group="clients" data-multi="1" data-val="fitness-ent">💪 Fitness Enthusiasts</button>
+            <button class="chip" data-group="clients" data-multi="1" data-val="weight-loss">⚖️ Weight Loss Clients</button>
+            <button class="chip" data-group="clients" data-multi="1" data-val="medical">🩺 Medical Conditions</button>
+            <button class="chip" data-group="clients" data-multi="1" data-val="general">👥 General Public</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 4 · AREAS OF EXPERTISE ════════════ -->
+    <section class="screen" id="screen-4">
+      <div class="step-hdr">
+        <div class="step-emoji">🎯</div>
+        <h2 class="step-title">Areas of Expertise</h2>
+        <p class="step-sub">What are your nutrition specialties?</p>
+      </div>
+      <div class="step-body">
+        <p class="form-hint" style="margin-bottom:12px">Select all that apply</p>
+        <div class="chips-grid">
+          <button class="chip" data-group="expertise" data-multi="1" data-val="clinical">🩺 Clinical Nutrition</button>
+          <button class="chip" data-group="expertise" data-multi="1" data-val="weight-loss">⚖️ Weight Loss</button>
+          <button class="chip" data-group="expertise" data-multi="1" data-val="muscle-gain">💪 Muscle Gain</button>
+          <button class="chip" data-group="expertise" data-multi="1" data-val="fat-loss">🔥 Fat Loss</button>
+          <button class="chip" data-group="expertise" data-multi="1" data-val="gut-health">🌿 Gut Health</button>
+          <button class="chip" data-group="expertise" data-multi="1" data-val="hormone">⚡ Hormone Balance</button>
+          <button class="chip" data-group="expertise" data-multi="1" data-val="diabetes">💊 Diabetes & Lifestyle</button>
+          <button class="chip" data-group="expertise" data-multi="1" data-val="immunity">🛡️ Immunity Nutrition</button>
+          <button class="chip" data-group="expertise" data-multi="1" data-val="women">♀ Women's Nutrition</button>
+          <button class="chip" data-group="expertise" data-multi="1" data-val="youth">👶 Child & Youth Nutrition</button>
+          <button class="chip" data-group="expertise" data-multi="1" data-val="plant">🥦 Plant-Based Nutrition</button>
+          <button class="chip" data-group="expertise" data-multi="1" data-val="mental">🧠 Mindful Eating</button>
+          <button class="chip chip--full" data-group="expertise" data-multi="1" data-val="general">🥗 General Wellness Nutrition</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 5 · SERVICES ═══════════════════════ -->
+    <section class="screen" id="screen-5">
+      <div class="step-hdr">
+        <div class="step-emoji">🛠️</div>
+        <h2 class="step-title">Services Offered</h2>
+        <p class="step-sub">What do you provide to your clients?</p>
+      </div>
+      <div class="step-body">
+        <p class="form-hint" style="margin-bottom:12px">Select all that apply</p>
+        <div class="chips-grid">
+          <button class="chip" data-group="services" data-multi="1" data-val="diet-plans">📋 Personalized Diet Plans</button>
+          <button class="chip" data-group="services" data-multi="1" data-val="monthly-prog">📅 Monthly Nutrition Programs</button>
+          <button class="chip" data-group="services" data-multi="1" data-val="1on1">👤 One-on-One Consultation</button>
+          <button class="chip" data-group="services" data-multi="1" data-val="group">👥 Group Consultation</button>
+          <button class="chip" data-group="services" data-multi="1" data-val="team">🏢 Corporate Wellness Programs</button>
+          <button class="chip" data-group="services" data-multi="1" data-val="online">💻 Online Consultation</button>
+          <button class="chip" data-group="services" data-multi="1" data-val="offline">📍 Offline Consultation</button>
+          <button class="chip" data-group="services" data-multi="1" data-val="workshops">🎓 Nutrition Workshops</button>
+          <button class="chip chip--full" data-group="services" data-multi="1" data-val="meal-plan">🥗 Meal Planning</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 6 · AVAILABILITY ═══════════════════ -->
+    <section class="screen" id="screen-6">
+      <div class="step-hdr">
+        <div class="step-emoji">📅</div>
+        <h2 class="step-title">Availability</h2>
+        <p class="step-sub">When are you available for consultations?</p>
+      </div>
+      <div class="step-body">
+        <div class="form-group">
+          <label class="form-label">Consultation Mode <span class="req">*</span></label>
+          <div class="chips-grid chips-grid--3">
+            <button class="chip chip--large" data-group="mode" data-val="online">💻 Online</button>
+            <button class="chip chip--large" data-group="mode" data-val="offline">📍 Offline</button>
+            <button class="chip chip--large" data-group="mode" data-val="both">🔀 Both</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Working Days <span class="req">*</span></label>
+          <p class="form-hint">Select all that apply</p>
+          <div class="chips-grid chips-grid--days">
+            <button class="chip" data-group="days" data-multi="1" data-val="mon">Mon</button>
+            <button class="chip" data-group="days" data-multi="1" data-val="tue">Tue</button>
+            <button class="chip" data-group="days" data-multi="1" data-val="wed">Wed</button>
+            <button class="chip" data-group="days" data-multi="1" data-val="thu">Thu</button>
+            <button class="chip" data-group="days" data-multi="1" data-val="fri">Fri</button>
+            <button class="chip" data-group="days" data-multi="1" data-val="sat">Sat</button>
+            <button class="chip" data-group="days" data-multi="1" data-val="sun">Sun</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Available Time Slots <span class="req">*</span></label>
+          <p class="form-hint">Select all that apply</p>
+          <div class="chips-grid">
+            <button class="chip" data-group="slots" data-multi="1" data-val="morning">🌅 Morning</button>
+            <button class="chip" data-group="slots" data-multi="1" data-val="afternoon">☀️ Afternoon</button>
+            <button class="chip" data-group="slots" data-multi="1" data-val="evening">🌆 Evening</button>
+            <button class="chip" data-group="slots" data-multi="1" data-val="night">🌙 Night</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 7 · PRICING ═════════════════════════ -->
+    <section class="screen" id="screen-7">
+      <div class="step-hdr">
+        <div class="step-emoji">💰</div>
+        <h2 class="step-title">Pricing</h2>
+        <p class="step-sub">Set your pricing packages — you can edit these later</p>
+      </div>
+      <div class="step-body">
+        <div class="form-group">
+          <label class="form-label">1️⃣ One-Day Review Fee <span class="req">*</span></label>
+          <p class="form-hint">Review of diet, workout, and progress for 1 day</p>
+          <div class="fee-input-wrap">
+            <span class="fee-prefix">₹</span>
+            <input type="number" class="form-input fee-input" id="feeDayReview" placeholder="e.g. 299" min="0" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">2️⃣ One-Week Review Fee <span class="req">*</span></label>
+          <p class="form-hint">7-day plan review and expert guidance</p>
+          <div class="fee-input-wrap">
+            <span class="fee-prefix">₹</span>
+            <input type="number" class="form-input fee-input" id="feeWeekReview" placeholder="e.g. 799" min="0" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">3️⃣ Personal Coaching Fee <span class="req">*</span></label>
+          <p class="form-hint">1-on-1 coaching with continuous support</p>
+          <div class="fee-input-wrap">
+            <span class="fee-prefix">₹</span>
+            <input type="number" class="form-input fee-input" id="feeMonthly" placeholder="e.g. 4999" min="0" />
+            <span class="fee-suffix">per month</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">WhatsApp Support Included? <span class="req">*</span></label>
+          <div class="chips-grid chips-grid--2">
+            <button class="chip chip--large" data-group="whatsapp" data-val="yes">✅ Yes</button>
+            <button class="chip chip--large" data-group="whatsapp" data-val="no">❌ No</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Video Consultation Available? <span class="req">*</span></label>
+          <div class="chips-grid chips-grid--2">
+            <button class="chip chip--large" data-group="videoCall" data-val="yes">✅ Yes</button>
+            <button class="chip chip--large" data-group="videoCall" data-val="no">❌ No</button>
+          </div>
+        </div>
+        <div class="pricing-tip">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Experts offering affordable review packages receive more inquiries.
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 8 · PROFESSIONAL PROFILE ══════════ -->
+    <section class="screen" id="screen-8">
+      <div class="step-hdr">
+        <div class="step-emoji">✍️</div>
+        <h2 class="step-title">Professional Profile</h2>
+        <p class="step-sub">Let clients know who you are</p>
+      </div>
+      <div class="step-body">
+        <div class="form-group">
+          <label class="form-label">Professional Bio <span class="req">*</span></label>
+          <p class="form-hint">Tell clients about your background — max 500 words</p>
+          <textarea class="form-input form-textarea form-textarea--tall" id="nutBio" placeholder="Hi, I'm Dr. Neha Joshi, a certified Clinical Nutritionist with 7 years of experience helping clients with weight loss, gut health and lifestyle transformation. I specialize in personalized nutrition plans and sustainable habit building…" maxlength="2500"></textarea>
+          <span class="char-count"><span id="bioCount">0</span> / 500 words</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Number of Clients Guided <span class="req">*</span></label>
+          <div class="chips-grid chips-grid--3">
+            <button class="chip chip--large" data-group="clientCount" data-val="0-25">0–25</button>
+            <button class="chip chip--large" data-group="clientCount" data-val="25-50">25–50</button>
+            <button class="chip chip--large" data-group="clientCount" data-val="50-100">50–100</button>
+            <button class="chip chip--large" data-group="clientCount" data-val="100-500">100–500</button>
+            <button class="chip chip--large chip--full" data-group="clientCount" data-val="500+">500+ Clients</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Notable Achievements</label>
+          <p class="form-hint">e.g. Clients helped · Certifications earned · Health outcomes</p>
+          <textarea class="form-input form-textarea" id="achievements" placeholder="Clients Helped: 100+&#10;Weight Management Successes: 40&#10;Corporate Nutrition Programmes: 3&#10;Certified Nutritionist: ANutr, RNutr" style="height:100px"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 9 · SOCIAL PROOF ═══════════════════ -->
+    <section class="screen" id="screen-9">
+      <div class="step-hdr">
+        <div class="step-emoji">⭐</div>
+        <h2 class="step-title">Social Proof</h2>
+        <p class="step-sub">Client results build powerful trust</p>
+      </div>
+      <div class="step-body">
+        <div class="form-group">
+          <label class="form-label">Do you have client testimonials? <span class="req">*</span></label>
+          <div class="chips-grid chips-grid--2">
+            <button class="chip chip--large" data-group="hasTestimonials" data-val="yes">✅ Yes, I have some</button>
+            <button class="chip chip--large" data-group="hasTestimonials" data-val="no">❌ Not yet</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Upload Testimonials <span class="form-optional">(Optional)</span></label>
+          <p class="form-hint">Screenshots from WhatsApp, Google, social media</p>
+          <label class="drop-zone drop-zone--sm" for="testimonialFile">
+            <div class="drop-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+            <p class="drop-title" id="testimonialLabel">Upload Testimonial Screenshots</p>
+            <p class="drop-sub">Images or PDFs · Multiple allowed</p>
+            <input type="file" id="testimonialFile" accept="image/*,.pdf" multiple hidden />
+          </label>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Upload Success Stories <span class="form-optional">(Optional)</span></label>
+          <p class="form-hint">Before/after results, client health transformations</p>
+          <label class="drop-zone drop-zone--sm" for="successFile">
+            <div class="drop-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <p class="drop-title" id="successLabel">Upload Success Stories</p>
+            <p class="drop-sub">Photos or documents</p>
+            <input type="file" id="successFile" accept="image/*,.pdf" multiple hidden />
+          </label>
+        </div>
+        <div class="social-tip-card">
+          <div class="social-tip-icon">💡</div>
+          <p class="social-tip-text">Nutritionists with client success stories get <strong>6× more profile visits</strong> from fitness coaches and wellness clients.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STEP 10 · DOCUMENTS & VERIFICATION ══════ -->
+    <section class="screen" id="screen-10">
+      <div class="step-hdr">
+        <div class="step-emoji">📄</div>
+        <h2 class="step-title">Documents</h2>
+        <p class="step-sub">Verified nutritionists gain 7× more trust from clients</p>
+      </div>
+      <div class="step-body">
+
+        <div class="doc-section-label required-label">
+          <span class="doc-badge required-badge">Required</span>
+          Mandatory Documents
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-hdr">
+            <span class="doc-card-title">Government ID Proof <span class="req">*</span></span>
+          </div>
+          <p class="doc-card-sub">Any one of the following</p>
+          <div class="chips-grid chips-grid--2" style="margin-bottom:12px">
+            <button class="chip" data-group="idType" data-val="aadhaar">🪪 Aadhaar Card</button>
+            <button class="chip" data-group="idType" data-val="pan">💳 PAN Card</button>
+            <button class="chip" data-group="idType" data-val="passport">📒 Passport</button>
+            <button class="chip" data-group="idType" data-val="license">🚗 Driving License</button>
+          </div>
+          <label class="drop-zone drop-zone--sm" for="idFile">
+            <div class="drop-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+            <p class="drop-title" id="idLabel">Upload ID Document</p>
+            <p class="drop-sub">PDF, JPG or PNG</p>
+            <input type="file" id="idFile" accept="image/*,.pdf" hidden />
+          </label>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-hdr">
+            <span class="doc-card-title">Nutrition Certification <span class="req">*</span></span>
+          </div>
+          <p class="doc-card-sub">Degree certificate, RD license, or any nutrition qualification</p>
+          <label class="drop-zone drop-zone--sm" for="nutCertFile">
+            <div class="drop-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+            <p class="drop-title" id="nutCertLabel">Upload Nutrition Certificate</p>
+            <p class="drop-sub">PDF or Image</p>
+            <input type="file" id="nutCertFile" accept="image/*,.pdf" hidden />
+          </label>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-hdr">
+            <span class="doc-card-title">Mobile OTP Verification</span>
+            <span class="otp-status-chip" id="otpStatusChip">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg>
+              Pending
+            </span>
+          </div>
+          <p class="doc-card-sub">Verified in Step 1 — your mobile must be confirmed before submission.</p>
+        </div>
+
+        <!-- Introduction Video (required) -->
+        <div class="form-group">
+          <label class="form-label">Introduction Video <span class="req">*</span></label>
+          <div class="video-trust-card">
+            <div class="video-trust-icon">🎥</div>
+            <h3 class="video-trust-title">Introduce Yourself to Clients</h3>
+            <p class="video-trust-desc">A 30–60 second video builds massive trust. Nutritionists with intro videos see <strong>8× more client inquiries.</strong></p>
+            <div class="video-trust-tags">
+              <span class="video-tag">30–60 seconds</span>
+              <span class="video-tag">🔒 Builds Trust</span>
+              <span class="video-tag">⭐ Score +20pts</span>
+            </div>
+          </div>
+          <label class="drop-zone drop-zone--video" for="videoFile" style="margin-top:10px">
+            <div class="drop-icon-wrap drop-icon-wrap--video">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            </div>
+            <p class="drop-title" id="videoLabel">Upload Introduction Video</p>
+            <p class="drop-sub">MP4 or MOV · Max 100 MB · 30–60 seconds</p>
+            <span class="video-req-badge">Required</span>
+            <input type="file" id="videoFile" accept="video/*" hidden />
+          </label>
+        </div>
+
+        <div class="doc-section-label" style="margin-top:4px">
+          <span class="doc-badge optional-badge">Optional</span>
+          Recommended — Boosts Your Score
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-hdr"><span class="doc-card-title">Degree Certificate</span></div>
+          <label class="drop-zone drop-zone--sm" for="degreeFile">
+            <div class="drop-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+            <p class="drop-title" id="degreeLabel">Upload Degree Certificate</p>
+            <p class="drop-sub">PDF or Image</p>
+            <input type="file" id="degreeFile" accept="image/*,.pdf" hidden />
+          </label>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-hdr"><span class="doc-card-title">Nutrition Certifications</span></div>
+          <p class="doc-card-sub">ISSN, ISSA, Precision Nutrition, or other certifications</p>
+          <label class="drop-zone drop-zone--sm" for="nutCertFile">
+            <div class="drop-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+            <p class="drop-title" id="nutCertLabel">Upload Certifications</p>
+            <p class="drop-sub">PDF or Image · Multiple allowed</p>
+            <input type="file" id="nutCertFile" accept="image/*,.pdf" multiple hidden />
+          </label>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-hdr"><span class="doc-card-title">Achievement Photos</span></div>
+          <p class="doc-card-sub">Client success photos, workshop events, certificate display</p>
+          <label class="drop-zone drop-zone--sm" for="achieveFile">
+            <div class="drop-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <p class="drop-title" id="achieveLabel">Upload Achievement Photos</p>
+            <p class="drop-sub">JPG or PNG · Up to 10 photos</p>
+            <input type="file" id="achieveFile" accept="image/*" multiple hidden />
+          </label>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════ FINAL SCREEN ════════════════════════════ -->
+    <section class="screen" id="screen-final">
+      <div class="final-wrap">
+        <div class="final-icon">🎉</div>
+        <h2 class="final-title">Application Submitted!</h2>
+        <p class="final-sub">Your application has been submitted successfully. Our verification team will review your profile and documents before approval.</p>
+
+        <div class="scores-section">
+          <p class="scores-label">Your Nutritionist Scores</p>
+          <div class="score-row">
+            <span class="score-name">Profile Score</span>
+            <div class="score-bar-track"><div class="score-bar-fill" data-score="82"></div></div>
+            <span class="score-val" id="sv1">0</span>
+          </div>
+          <div class="score-row">
+            <span class="score-name">Verification Score</span>
+            <div class="score-bar-track"><div class="score-bar-fill" data-score="78"></div></div>
+            <span class="score-val" id="sv2">0</span>
+          </div>
+          <div class="score-row">
+            <span class="score-name">Certification Score</span>
+            <div class="score-bar-track"><div class="score-bar-fill" data-score="75"></div></div>
+            <span class="score-val" id="sv3">0</span>
+          </div>
+          <div class="score-row">
+            <span class="score-name">Trust Score</span>
+            <div class="score-bar-track"><div class="score-bar-fill" data-score="80"></div></div>
+            <span class="score-val" id="sv4">0</span>
+          </div>
+          <div class="score-row">
+            <span class="score-name">Client Impact Score</span>
+            <div class="score-bar-track"><div class="score-bar-fill" data-score="70"></div></div>
+            <span class="score-val" id="sv5">0</span>
+          </div>
+          <div class="score-row">
+            <span class="score-name">Response Rate</span>
+            <div class="score-bar-track"><div class="score-bar-fill" data-score="85"></div></div>
+            <span class="score-val" id="sv6">0</span>
+          </div>
+          <div class="score-row">
+            <span class="score-name">Profile Completeness</span>
+            <div class="score-bar-track"><div class="score-bar-fill" data-score="90"></div></div>
+            <span class="score-val" id="sv7">0</span>
+          </div>
+        </div>
+
+        <div class="badge-section">
+          <p class="scores-label">Your Recommended Badge</p>
+          <div class="badge-cards">
+            <div class="badge-card">
+              <span class="badge-medal">🥉</span>
+              <span class="badge-name">Rising</span>
+              <span class="badge-range">0–50</span>
+            </div>
+            <div class="badge-card">
+              <span class="badge-medal">🥈</span>
+              <span class="badge-name">Verified</span>
+              <span class="badge-range">50–75</span>
+            </div>
+            <div class="badge-card badge-card--recommended">
+              <span class="badge-rec-label">Your Badge</span>
+              <span class="badge-medal">🥇</span>
+              <span class="badge-name">Elite</span>
+              <span class="badge-range">75–90</span>
+            </div>
+            <div class="badge-card">
+              <span class="badge-medal">🏆</span>
+              <span class="badge-name">Pro</span>
+              <span class="badge-range">90–100</span>
+            </div>
+          </div>
+          <p class="badge-full-name">🥇 Elite Nutritionist</p>
+        </div>
+
+        <div class="final-actions">
+          <a href="../../profile/account/account-profile.html" class="final-btn-primary">Go to Profile</a>
+          <button class="final-btn-secondary" type="button">Track Application Status</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Step Nav ───────────────────────────────────── -->
+  <div class="step-nav" id="stepNav" style="display:none">
+    <button class="step-back" id="stepBackBtn" type="button">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </button>
+    <button class="step-next" id="stepNextBtn" type="button">Continue
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+
+  <!-- ── Bottom Nav ─────────────────────────────────── -->
+  <nav class="bottom-nav">
+    <a href="#" class="nav-item nav-item--active">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+      <span>Apply</span>
+    </a>
+    <a href="../../affiliate/affiliate.html" class="nav-item nav-item--affiliate">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      <span>Affiliate</span>
+    </a>
+    <a href="../../profile/account/account-profile.html" class="nav-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <!-- ── Settings Modal ─────────────────────────────── -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <span class="sheet-title">Settings</span>
+        <button class="sheet-close" id="closeBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="sheet-body">
+        <p class="sheet-section-label">Appearance</p>
+        <div class="theme-toggle">
+          <button class="theme-btn" id="lightBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            Light
+          </button>
+          <button class="theme-btn" id="darkBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            Dark
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-toast" id="appToast"></div>
+
+</div>
+<script src="nutritionist-apply.js"></script>
+<script src="../../shared/bottom-nav.js"></script>
+</body>
+</html>

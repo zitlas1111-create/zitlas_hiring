@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Join as Expert — ZITLAS Experts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      var t = localStorage.getItem('zitlas_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #080910;
+      --surface:  #0f1117;
+      --border:   rgba(255,255,255,0.08);
+      --text:     #f0f4f0;
+      --muted:    #6b7280;
+      --accent:   #FF7A00;
+      --accent-l: rgba(255,122,0,0.12);
+    }
+    [data-theme="light"] {
+      --bg:      #f5f5f7;
+      --surface: #ffffff;
+      --border:  rgba(0,0,0,0.08);
+      --text:    #111827;
+      --muted:   #6b7280;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 0 40px;
+    }
+
+    /* ── Header ── */
+    .header {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 20px 0;
+    }
+    .logo-mark {
+      width: 34px; height: 34px;
+      background: var(--accent);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 900; color: #080910;
+      flex-shrink: 0;
+    }
+    .logo-text { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; }
+    .logo-sub  { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+    /* ── Content ── */
+    .content {
+      width: 100%;
+      max-width: 480px;
+      padding: 36px 20px 0;
+    }
+
+    .page-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .page-title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .page-sub {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 32px;
+    }
+
+    /* ── Role Cards ── */
+    .role-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .role-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 18px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      font-family: inherit;
+      color: var(--text);
+      transition: border-color 0.15s, background 0.15s, transform 0.1s;
+      -webkit-appearance: none;
+      text-decoration: none;
+    }
+    .role-card:hover {
+      border-color: var(--accent);
+      background: var(--accent-l);
+      transform: translateY(-1px);
+    }
+    .role-card:active { transform: translateY(0); opacity: 0.9; }
+
+    .role-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,122,0,0.08);
+      border-radius: 12px;
+    }
+    .role-info { flex: 1; }
+    .role-name {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 3px;
+    }
+    .role-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .role-arrow {
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    .role-card:hover .role-arrow { color: var(--accent); }
+
+    /* ── Footer note ── */
+    .footer-note {
+      margin-top: 28px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+    .footer-note a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* ── Status Panel (shown when application already submitted) ── */
+    .status-panel {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-top: 44px;
+    }
+    .sp-icon-wrap {
+      width: 76px; height: 76px;
+      background: rgba(255,122,0,0.08);
+      border: 1.5px solid rgba(255,122,0,0.22);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 34px;
+      margin-bottom: 22px;
+    }
+    .sp-title {
+      font-size: 24px; font-weight: 800;
+      letter-spacing: -0.03em; line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .sp-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 16px; border-radius: 99px;
+      font-size: 12px; font-weight: 700;
+      margin-bottom: 18px;
+    }
+    .sp-badge--review   { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: #d97706; }
+    .sp-badge--approved { background: rgba(16,185,129,0.12);  border: 1px solid rgba(16,185,129,0.3);  color: #059669; }
+    .sp-badge--rejected { background: rgba(239,68,68,0.12);   border: 1px solid rgba(239,68,68,0.3);   color: #dc2626; }
+    .sp-msg {
+      font-size: 14px; color: var(--muted); line-height: 1.65;
+      margin-bottom: 32px; max-width: 320px;
+    }
+    .sp-actions { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+    .sp-btn {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      height: 50px; width: 100%; border-radius: 13px;
+      font-size: 14px; font-weight: 700;
+      font-family: inherit; cursor: pointer; border: none;
+      text-decoration: none; transition: opacity 0.12s, transform 0.1s;
+    }
+    .sp-btn:active { transform: scale(0.99); opacity: 0.88; }
+    .sp-btn--primary   { background: var(--accent); color: #080910; }
+    .sp-btn--secondary {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--text);
+    }
+    .sp-btn--secondary:hover { border-color: var(--accent); }
+
+    /* ── Referral banner ── */
+    .ref-banner {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,122,0,0.08);
+      border: 1px solid rgba(255,122,0,0.25);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 20px;
+    }
+    .ref-banner.show { display: flex; }
+    .ref-banner-icon { font-size: 16px; flex-shrink: 0; }
+    .ref-banner-text { font-size: 12px; color: var(--muted); line-height: 1.4; }
+    .ref-banner-code { font-weight: 700; color: var(--accent); font-family: monospace; }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo-mark">Z</div>
+    <div>
+      <div class="logo-text">ZITLAS</div>
+      <div class="logo-sub">Experts</div>
+    </div>
+  </header>
+
+  <div class="content">
+    <p class="page-eyebrow">Step 1 of 2</p>
+    <h1 class="page-title">Join ZITLAS as an Expert</h1>
+    <p class="page-sub">Choose your expert type to get started. You can always expand your profile later.</p>
+
+    <div class="status-panel" id="statusPanel">
+      <div class="sp-icon-wrap"><span id="spIcon">📋</span></div>
+      <h1 class="sp-title" id="spTitle">Application Submitted</h1>
+      <div class="sp-badge sp-badge--review" id="spBadge">🟡 Under Review</div>
+      <p class="sp-msg" id="spMsg">Your application has been submitted to ZITLAS. Our team will review it and notify you via email.</p>
+      <div class="sp-actions">
+        <a class="sp-btn sp-btn--primary" id="spBtn1" href="../affiliate/affiliate.html">Explore Affiliate Program</a>
+        <a class="sp-btn sp-btn--secondary" id="spBtn2" href="../profile/account/account-profile.html">Back to Profile</a>
+      </div>
+    </div>
+
+    <div class="ref-banner" id="refBanner">
+      <div class="ref-banner-icon">🤝</div>
+      <div class="ref-banner-text">
+        You were referred by <span class="ref-banner-code" id="refBannerCode"></span>
+      </div>
+    </div>
+
+    <div class="role-grid" id="roleGrid">
+
+      <a class="role-card" href="nutritionist/nutritionist-apply.html" data-type="nutritionist">
+        <div class="role-icon">🥗</div>
+        <div class="role-info">
+          <div class="role-name">Nutritionist</div>
+          <div class="role-desc">Offer personalised nutrition plans and dietary consulting</div>
+        </div>
+        <svg class="role-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+
+      <a class="role-card" href="coach/coach-apply.html" data-type="fitness_trainer">
+        <div class="role-icon">💪</div>
+        <div class="role-info">
+          <div class="role-name">Fitness Trainer</div>
+          <div class="role-desc">Provide personal training, workout programmes and fitness coaching</div>
+        </div>
+        <svg class="role-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+
+      <a class="role-card" href="both/both-apply.html" data-type="both">
+        <div class="role-icon">⚡</div>
+        <div class="role-info">
+          <div class="role-name">Fitness Trainer + Nutritionist</div>
+          <div class="role-desc">Combine training and nutrition for a complete wellness offering</div>
+        </div>
+        <svg class="role-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+
+      <a class="role-card" href="../affiliate/affiliate.html" data-type="affiliate">
+        <div class="role-icon">🤝</div>
+        <div class="role-info">
+          <div class="role-name">Affiliate Partner</div>
+          <div class="role-desc">Refer experts and earn commissions as a ZITLAS affiliate</div>
+        </div>
+        <svg class="role-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+
+    </div>
+
+    <p class="footer-note">
+      Already have an account? <a href="../login.html">Sign in</a>
+    </p>
+  </div>
+
+  <script>
+  (function () {
+    var submitted = localStorage.getItem('application_submitted');
+    var status    = localStorage.getItem('application_status') || 'under_review';
+    var appId     = localStorage.getItem('application_id')     || '';
+
+    function applyStatus(st) {
+      var panel   = document.getElementById('statusPanel');
+      var grid    = document.getElementById('roleGrid');
+      var eyebrow = document.querySelector('.page-eyebrow');
+      var ptitle  = document.querySelector('.page-title');
+      var psub    = document.querySelector('.page-sub');
+      var footer  = document.querySelector('.footer-note');
+
+      [grid, eyebrow, ptitle, psub, footer].forEach(function (el) {
+        if (el) el.style.display = 'none';
+      });
+      if (panel) panel.style.display = 'flex';
+
+      var icon  = document.getElementById('spIcon');
+      var title = document.getElementById('spTitle');
+      var badge = document.getElementById('spBadge');
+      var msg   = document.getElementById('spMsg');
+      var btn1  = document.getElementById('spBtn1');
+
+      if (st === 'approved') {
+        if (icon)  icon.textContent = '🎉';
+        if (title) title.textContent = 'Application Approved';
+        if (badge) { badge.textContent = '✅ Approved'; badge.className = 'sp-badge sp-badge--approved'; }
+        if (msg)   msg.textContent = 'Congratulations! Your application has been approved by the ZITLAS team. Check your email for next steps.';
+        if (btn1)  { btn1.textContent = 'Go to Profile'; btn1.href = '../profile/account/account-profile.html'; }
+      } else if (st === 'rejected') {
+        if (icon)  icon.textContent = '📋';
+        if (title) title.textContent = 'Application Not Approved';
+        if (badge) { badge.textContent = '❌ Not Approved'; badge.className = 'sp-badge sp-badge--rejected'; }
+        if (msg)   msg.textContent = 'Unfortunately, your application was not approved at this time. You may update your details and reapply.';
+        if (btn1) {
+          btn1.textContent = 'Reapply';
+          btn1.href = '#';
+          btn1.addEventListener('click', function (e) {
+            e.preventDefault();
+            ['application_submitted', 'application_status', 'application_id'].forEach(function (k) {
+              localStorage.removeItem(k);
+            });
+            window.location.replace('apply.html');
+          });
+        }
+      } else {
+        if (icon)  icon.textContent = '📋';
+        if (title) title.textContent = 'Application Submitted';
+        if (badge) { badge.textContent = '🟡 Under Review'; badge.className = 'sp-badge sp-badge--review'; }
+        if (msg)   msg.textContent = 'Your application has been submitted to ZITLAS. Our team will review it and notify you via email.';
+        if (btn1)  { btn1.textContent = 'Explore Affiliate Program'; btn1.href = '../affiliate/affiliate.html'; }
+      }
+    }
+
+    if (submitted) {
+      applyStatus(status);
+      /* Sync with backend if we have the application ID */
+      if (appId && window.location.protocol !== 'file:') {
+        fetch('/api/expert-applications/' + appId + '/status')
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (d) {
+            if (!d) return;
+            var mapped = d.status === 'approved' ? 'approved' :
+                         d.status === 'rejected' ? 'rejected' : 'under_review';
+            if (mapped !== status) {
+              localStorage.setItem('application_status', mapped);
+              applyStatus(mapped);
+            }
+          })
+          .catch(function () {});
+      }
+    }
+
+    /* ── Card click: store chosen type then navigate ── */
+    document.querySelectorAll('#roleGrid .role-card').forEach(function (card) {
+      card.addEventListener('click', function (e) {
+        var type = card.getAttribute('data-type');
+        if (type) {
+          e.preventDefault();
+          localStorage.setItem('zitlas_application_type', type);
+          window.location.href = card.getAttribute('href');
+        }
+      });
+    });
+  })();
+  </script>
+
+  <script>
+  (function () {
+    /* ── Read ?ref= from URL ── */
+    var params = new URLSearchParams(window.location.search);
+    var ref    = params.get('ref') || sessionStorage.getItem('affiliate_ref') || '';
+
+    if (ref) {
+      sessionStorage.setItem('affiliate_ref', ref);
+
+      /* Show referral banner */
+      var banner = document.getElementById('refBanner');
+      var code   = document.getElementById('refBannerCode');
+      if (banner) banner.classList.add('show');
+      if (code)   code.textContent = ref;
+
+      /* Track click silently */
+      if (window.location.protocol !== 'file:') {
+        fetch('/api/affiliate/track-click', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ affiliate_code: ref }),
+        }).catch(function () {});
+      }
+
+      /* Append ?ref= to all expert role card links */
+      document.querySelectorAll('#roleGrid .role-card').forEach(function (card) {
+        var href = card.getAttribute('href') || '';
+        if (href && href.indexOf('affiliate') === -1) {
+          var sep = href.indexOf('?') === -1 ? '?' : '&';
+          card.setAttribute('href', href + sep + 'ref=' + encodeURIComponent(ref));
+        }
+      });
+    }
+  })();
+  </script>
+
+</body>
+</html>
